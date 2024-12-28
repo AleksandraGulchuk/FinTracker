@@ -1,8 +1,8 @@
 package com.perscolas.fintracker.controller;
 
+import com.perscolas.fintracker.model.Period;
 import com.perscolas.fintracker.model.dto.transaction.TransactionSaveDto;
 import com.perscolas.fintracker.servise.ExpenseService;
-import com.perscolas.fintracker.servise.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,21 +20,17 @@ import java.util.UUID;
 public class ExpenseController {
 
     private final ExpenseService expenseService;
-    private final UserService userService;
 
     @GetMapping()
     public String getSummary(Model model, Principal principal) {
-        UUID userId = userService.getUserIdByUserName(principal.getName());
         model.addAttribute("transaction", new TransactionSaveDto());
-        model.addAttribute("summary", expenseService.getSummary(userId));
+        model.addAttribute("summary", expenseService.getSummary(principal.getName(), Period.SIX_MONTHS.stringValue));
         return "expenses";
     }
 
     @PostMapping("/create")
     public String create(@ModelAttribute TransactionSaveDto transaction, Principal principal) {
-        UUID userId = userService.getUserIdByUserName(principal.getName());
-        transaction.setUserId(userId);
-        expenseService.createIncome(transaction);
+        expenseService.createIncome(principal.getName(), transaction);
         return "redirect:/expenses";
     }
 

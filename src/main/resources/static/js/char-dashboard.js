@@ -1,60 +1,18 @@
 "use strict"
 
-// let balanceData = [5000, -2000, 300, 10000];
-// let balanceLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
-
-
-// let categories = ['Car', 'Food', 'Utilities', 'Sports', 'Education'];
-// let expenseData = [800, 1000, 300, 300, 1000];
-
-
 const balancesChar = document.getElementById("balancesChar").value;
 console.log(balancesChar);
 
-const categoriesChar = document.getElementById("categoriesChar").value;
-console.log(categoriesChar);
-
-
-function capitalizeFirstLetter(str){
-    str = str.toLowerCase();
-    const letter = str.charAt(0).toUpperCase();
-    return letter + str.slice(1);
-}
-
-function convertStringToMap(summary){
-    summary = summary.replaceAll('=', '":"');
-    summary = summary.replaceAll('{','{"');
-    summary = summary.replaceAll('}','"}');
-    summary = summary.replaceAll(', ','","');
-
-    let map = new Map(Object.entries(JSON.parse(summary)));
-    console.log(map);
-    return map;
-}
+const categoryChar = document.getElementById("categoryChar").value;
+console.log(categoryChar);
 
 const balancesCharMap = convertStringToMap(balancesChar);
 let balanceData = Array.from(balancesCharMap.values());
 let balanceLabels = Array.from(balancesCharMap.keys()).map((element) => capitalizeFirstLetter(element));
 
-const categoriesCharMap = convertStringToMap(categoriesChar);
-let expenseData = Array.from(categoriesCharMap.values());
+const categoriesCharMap = convertStringToMap(categoryChar);
+let categoryData = Array.from(categoriesCharMap.values());
 let categoryLabels = Array.from(categoriesCharMap.keys()).map((element) => capitalizeFirstLetter(element));
-
-
-
-
-
-function generatePastelColors(dataLength) {
-    const colors = [];
-    for (let i = 0; i < dataLength; i++) {
-        const hue = (i * (360 / dataLength)) % 360;
-        const saturation = 50;
-        const lightness = 80;
-        colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
-    }
-    return colors;
-}
-
 
 let balancesData = {
     labels: balanceLabels,
@@ -74,11 +32,11 @@ let balancesData = {
 
 let backgroundColors = generatePastelColors(categoryLabels.length);
 
-let expensesData = {
+let categoriesData = {
     labels: categoryLabels,
     datasets: [{
         label: 'Expenses by Category',
-        data: expenseData,
+        data: categoryData,
         backgroundColor: backgroundColors,
         borderColor: backgroundColors.map(color => color.replace(/(\d+)%\)/, '100%)')),
         borderWidth: 1
@@ -112,14 +70,14 @@ let balancesConfig = {
             }
         },
         scales: {
-            y: { beginAtZero: true }
+            y: {beginAtZero: true}
         }
     }
 };
 
-let expensesConfig = {
+let categoriesConfig = {
     type: 'pie',
-    data: expensesData,
+    data: categoriesData,
     options: {
         responsive: true,
         plugins: {
@@ -163,78 +121,8 @@ let balanceChart = new Chart(
     balancesConfig
 );
 
-let expensesChart = new Chart(
-    document.getElementById('expensesChart'),
-    expensesConfig
+let categoriesChart = new Chart(
+    document.getElementById('categoriesChart'),
+    categoriesConfig
 );
-
-// function changeTotal() {
-//     let mylist = document.getElementById("myList");
-//     let option = mylist.options[mylist.selectedIndex].text;
-//
-//     switch (option) {
-//         case "This month":
-//             document.getElementById("incomes-total").value = '$50,000.00';
-//             document.getElementById("expenses-total").value = '$40,000.00';
-//             document.getElementById("balance-total").value = '$10,000.00';
-//
-//             balanceData = [5000, -2000, 300, 10000];
-//             balanceLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
-//             categories = ['Car', 'Food', 'Utilities', 'Sports', 'Education'];
-//             expenseData = [800, 1000, 300, 300, 1000];
-//
-//             break;
-//
-//         case "This week":
-//             document.getElementById("incomes-total").value = '$5,000.00';
-//             document.getElementById("expenses-total").value = '$4,000.00';
-//             document.getElementById("balance-total").value = '$1,000.00';
-//
-//             balanceData = [500, 450, 450, 1000];
-//             balanceLabels = ['Sunday', 'Monday', 'Tuesday', 'Wenesday'];
-//             categories = ['Car', 'Food', 'Sports'];
-//             expenseData = [50, 500, 30];
-//
-//             break;
-//
-//         case "Six months":
-//             document.getElementById("incomes-total").value = '$500,000.00';
-//             document.getElementById("expenses-total").value = '$497,000.00';
-//             document.getElementById("balance-total").value = '$7,000.00';
-//
-//             balanceData = [5000, 2000, -1000, -500, 3000, 7000];
-//             balanceLabels = ['July', 'August', 'September', 'October', 'November', 'December'];
-//             categories = ['Car', 'Food', 'Utilities', 'Sports', 'Education', 'Donations'];
-//             expenseData = [1200, 12000, 3000, 600, 15000, 1500];
-//
-//             break;
-//
-//         default:
-//             document.getElementById("incomes-total").value = '$50,000.00';
-//             document.getElementById("expenses-total").value = '$40,000.00';
-//             document.getElementById("balance-total").value = '$10,000.00';
-//
-//             balanceData = [5000, -2000, 300, -1000];
-//             balanceLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
-//             categories = ['Car', 'Food', 'Utilities', 'Sports', 'Education'];
-//             expenseData = [800, 1000, 300, 300, 1000];
-//     }
-//
-//     // Update the chart data
-//     balanceConfig.data.labels = balanceLabels;
-//     balanceConfig.data.datasets[0].data = balanceData;
-//
-//     expensesConfig.data.labels = categories;
-//     expensesConfig.data.datasets[0].data = expenseData;
-//     expensesConfig.data.datasets[0].backgroundColor = generatePastelColors(categories.length);
-//
-//     // Destroy the old charts before creating new ones
-//     if (balanceChart) balanceChart.destroy();
-//     if (expensesChart) expensesChart.destroy();
-//
-//     // Create new charts
-//     balanceChart = new Chart(document.getElementById('balanceChart'), balanceConfig);
-//     expensesChart = new Chart(document.getElementById('expensesChart'), expensesConfig);
-// }
-
 

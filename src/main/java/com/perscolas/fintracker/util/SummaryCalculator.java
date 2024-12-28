@@ -14,15 +14,6 @@ import java.util.Map;
 
 public class SummaryCalculator {
 
-    public static Map<String, BigDecimal> getTransactionsSummaryByMonths(List<TransactionDto> transactions, String period) {
-        Map<String, BigDecimal> bindMap = new HashMap<>();
-        for (TransactionDto transaction : transactions) {
-            String month = transaction.getDate().getMonth().toString();
-            putTransaction(transaction, bindMap, month);
-        }
-        return fillEmptyMonths(bindMap, period);
-    }
-
     public static Map<String, BigDecimal> getGroupByCategories(List<TransactionDto> expenses) {
         Map<String, BigDecimal> map = new LinkedHashMap<>();
         for (TransactionDto expense : expenses) {
@@ -36,15 +27,15 @@ public class SummaryCalculator {
         return map;
     }
 
-    public static Map<String, BigDecimal> getBalanceHistory(List<TransactionDto> transactions, String period) {
-        Map<String, BigDecimal> balanceHistory;
+    public static Map<String, BigDecimal> getTransactionsHistory(List<TransactionDto> transactions, String period) {
+        Map<String, BigDecimal> transactionsHistory;
         Period periodEnum = Period.periodOfStringValue(period);
-        balanceHistory = switch (periodEnum) {
+        transactionsHistory = switch (periodEnum) {
             case WEEK -> getTransactionsSummaryByWeek(transactions, period);
             case MONTH -> getTransactionsSummaryByOneMonth(transactions);
             default -> getTransactionsSummaryByMonths(transactions, period);
         };
-        return balanceHistory;
+        return transactionsHistory;
     }
 
     private static Map<String, BigDecimal> getTransactionsSummaryByOneMonth(List<TransactionDto> transactions) {
@@ -81,6 +72,15 @@ public class SummaryCalculator {
             putTransaction(transaction, bindMap, dayOfWeek);
         }
         return fillEmptyDays(bindMap, period);
+    }
+
+    private static Map<String, BigDecimal> getTransactionsSummaryByMonths(List<TransactionDto> transactions, String period) {
+        Map<String, BigDecimal> bindMap = new HashMap<>();
+        for (TransactionDto transaction : transactions) {
+            String month = transaction.getDate().getMonth().toString();
+            putTransaction(transaction, bindMap, month);
+        }
+        return fillEmptyMonths(bindMap, period);
     }
 
 

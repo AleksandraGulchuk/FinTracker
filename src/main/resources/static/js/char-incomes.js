@@ -1,25 +1,11 @@
 "use strict"
 
-function capitalizeFirstLetter(str){
-   str = str.toLowerCase();
-   const letter = str.charAt(0).toUpperCase();
-   return letter + str.slice(1);
-}
-
-function convertStringToMap(summary){
-    summary = summary.replaceAll('=', '":"');
-    summary = summary.replaceAll('{','{"');
-    summary = summary.replaceAll('}','"}');
-    summary = summary.replaceAll(', ','","');
-    return new Map(Object.entries(JSON.parse(summary)));
-}
-
-const map = convertStringToMap(document.getElementById("summary").value);
-let incomesData = Array.from(map.values());
-let labels = Array.from(map.keys()).map((element) => capitalizeFirstLetter(element));
+const incomesMap = convertStringToMap(document.getElementById("incomes").value);
+let incomesData = Array.from(incomesMap.values());
+let incomesLabels = Array.from(incomesMap.keys()).map((element) => capitalizeFirstLetter(element));
 
 let incomeData = {
-    labels: labels,
+    labels: incomesLabels,
     datasets: [{
         label: 'Incomes',
         data: incomesData,
@@ -56,7 +42,7 @@ let incomeConfig = {
             }
         },
         scales: {
-            y: { beginAtZero: true }
+            y: {beginAtZero: true}
         }
     }
 };

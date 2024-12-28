@@ -18,20 +18,23 @@ public class DashboardService {
     public DashboardDto getDashboard(String userName, String period) {
         TransactionsSummaryDto transactionsSummary = transactionService.getTransactionsSummary(userName, period);
         List<TransactionDto> transactions = transactionsSummary.getTransactions();
-        List<TransactionDto> expenses = getExpenses(transactions);
+        List<TransactionDto> incomes = getTransactionsByType(transactions, "income");
+        List<TransactionDto> expenses = getTransactionsByType(transactions, "expense");
 
         return DashboardDto.builder()
                 .expenseAmount(transactionsSummary.getExpenseAmount())
                 .incomeAmount(transactionsSummary.getIncomeAmount())
                 .balance(transactionsSummary.getBalance())
-                .balancesChar(SummaryCalculator.getBalanceHistory(transactions, period))
+                .balancesChar(SummaryCalculator.getTransactionsHistory(transactions, period))
                 .categoriesChar(SummaryCalculator.getGroupByCategories(expenses))
+                .incomesSummary(SummaryCalculator.getTransactionsHistory(incomes, period))
+                .expensesSummary(SummaryCalculator.getTransactionsHistory(expenses, period))
                 .build();
     }
 
-    private static List<TransactionDto> getExpenses(List<TransactionDto> transactions) {
+    private static List<TransactionDto> getTransactionsByType(List<TransactionDto> transactions, String type) {
         return transactions.stream()
-                .filter(t -> t.getType().equals("expense"))
+                .filter(t -> t.getType().equals(type))
                 .toList();
     }
 

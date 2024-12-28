@@ -3,7 +3,6 @@ package com.perscolas.fintracker.controller;
 import com.perscolas.fintracker.model.Period;
 import com.perscolas.fintracker.model.dto.dashboard.DashboardDto;
 import com.perscolas.fintracker.servise.DashboardService;
-import com.perscolas.fintracker.servise.UserService;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,6 @@ import java.security.Principal;
 public class DashboardController {
 
     private final DashboardService dashboardService;
-    private final UserService userService;
 
 
     @RequestMapping("")

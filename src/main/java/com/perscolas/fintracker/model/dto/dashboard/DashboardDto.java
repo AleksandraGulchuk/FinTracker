@@ -18,5 +18,7 @@ public class DashboardDto {
     private Map<String, BigDecimal> categoriesChar;
     private final Period[] periods = Period.values();
     private Period active;
+    Map<String, BigDecimal> incomesSummary;
+    Map<String, BigDecimal> expensesSummary;
 
 }

@@ -2,7 +2,6 @@ package com.perscolas.fintracker.servise;
 
 import com.perscolas.fintracker.mapper.CategoryMapper;
 import com.perscolas.fintracker.mapper.TransactionMapper;
-import com.perscolas.fintracker.model.Period;
 import com.perscolas.fintracker.model.dto.category.CategoryDto;
 import com.perscolas.fintracker.model.dto.transaction.SummaryDto;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
@@ -30,11 +29,13 @@ public class IncomeService {
     private final IncomeCategoryRepository incomeCategoryRepository;
     private final TransactionMapper transactionMapper;
     private final CategoryMapper categoryMapper;
+    private final UserService userService;
 
 
-    public SummaryDto getSummary(UUID id) {
-        List<TransactionDto> transactions = getTransactions(id);
-        Map<String, BigDecimal> summary = SummaryCalculator.getTransactionsSummaryByMonths(transactions, Period.SIX_MONTHS.stringValue);
+    public SummaryDto getSummary(String userName, String period) {
+        UUID userId = userService.getUserIdByUserName(userName);
+        List<TransactionDto> transactions = getTransactions(userId);
+        Map<String, BigDecimal> summary = SummaryCalculator.getTransactionsHistory(transactions, period);
         return SummaryDto.builder()
                 .transactions(transactions)
                 .categories(getCategories())
@@ -42,7 +43,9 @@ public class IncomeService {
                 .build();
     }
 
-    public void createIncome(TransactionSaveDto dto) {
+    public void createIncome(String userName, TransactionSaveDto dto) {
+        UUID userId = userService.getUserIdByUserName(userName);
+        dto.setUserId(userId);
         Income income = transactionMapper.dtoToIncome(dto);
         incomeRepository.save(income);
     }
