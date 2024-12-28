@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Create account</title>
+  <link rel="icon" type="image/x-icon" th:href="@{/img/icons/logo.png}"/>
+
+  <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
+
+</head>
+
+<body>
+  <div class="bg-img">
+    <form action="#" th:action="@{/create-account}" class="container" method="post" th:object="${user}">
+      <h2>Create account</h2>
+
+      <label for="name"><b>Name</b></label>
+      <input type="text" placeholder="Enter Your Name" name="name" id="name" th:field="*{name}"
+             pattern="^[a-zA-Z]+"
+        title="Please input the correct name use letters from a-z" required>
+
+      <label for="email"><b>Email</b></label>
+      <input type="email" placeholder="Enter Email" name="email" id="email" th:field="*{email}" required>
+
+      <label for="password"><b>Password</b></label>
+      <input type="password" th:field="*{password}" placeholder="Enter Password" name="password" id="password"
+        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+        title="Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
+        required>
+
+      <button type="submit" class="btn"><b>Create account</b></button>
+
+      <div>
+        <h5>Already have a FinTracker account?</h5>
+      </div>
+      <a th:href="@{/login}">Return to FinTracker login</a>
+
+    </form>
+  </div>
+
+</body>
+
+</html>

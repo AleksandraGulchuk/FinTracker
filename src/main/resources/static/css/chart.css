@@ -1,0 +1,12 @@
+  .chart {
+    width: 25%;
+    max-width: 500px;
+    margin: 20px;
+  }
+
+  canvas {
+    display: block;
+    margin: auto;
+    max-width: 100%;
+    height: auto;
+  }

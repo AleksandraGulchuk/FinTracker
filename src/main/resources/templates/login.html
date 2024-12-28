@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Login</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/img/icons/logo.png}">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
+</head>
+
+
+<body>
+
+<div class="bg-img">
+    <form action="" class="container" th:action="@{/login}" method="post">
+        <h2>Login to FinTracker</h2>
+        <label for="username"><b>Email</b></label>
+        <input type="email" placeholder="Enter Email" name="username" id="username" required>
+        <label for="password"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" id="password" required>
+        <button type="submit" class="btn"><b>Login</b></button>
+
+        <div>
+            <h5>New to FinTracker?</h5>
+        </div>
+        <a th:href="@{/create-account}">Create your FinTracker account</a>
+    </form>
+</div>
+
+</body>
+
+</html>
