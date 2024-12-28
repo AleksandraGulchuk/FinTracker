@@ -14,6 +14,6 @@ public class SummaryDto {
 
     private List<CategoryDto> categories;
     private List<TransactionDto> transactions;
-    private Map<String, BigDecimal> summary;
+    private Map<String, BigDecimal> transactionChart;
 
 }

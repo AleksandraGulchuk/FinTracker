@@ -14,11 +14,12 @@ public class DashboardDto {
     private BigDecimal expenseAmount;
     private BigDecimal incomeAmount;
     private BigDecimal balance;
-    private Map<String, BigDecimal> balancesChar;
-    private Map<String, BigDecimal> categoriesChar;
+    private Map<String, BigDecimal> balancesChart;
+    private Map<String, BigDecimal> expenseCategoriesChart;
+    private Map<String, BigDecimal> incomeCategoriesChart;
     private final Period[] periods = Period.values();
     private Period active;
-    Map<String, BigDecimal> incomesSummary;
-    Map<String, BigDecimal> expensesSummary;
+    Map<String, BigDecimal> incomesChart;
+    Map<String, BigDecimal> expensesChart;
 
 }

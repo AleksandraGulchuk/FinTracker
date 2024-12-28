@@ -39,7 +39,7 @@ public class IncomeService {
         return SummaryDto.builder()
                 .transactions(transactions)
                 .categories(getCategories())
-                .summary(summary)
+                .transactionChart(summary)
                 .build();
     }
 

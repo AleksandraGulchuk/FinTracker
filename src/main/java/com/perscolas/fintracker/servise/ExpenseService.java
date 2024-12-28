@@ -39,7 +39,7 @@ public class ExpenseService {
         return SummaryDto.builder()
                 .transactions(transactions)
                 .categories(getCategories())
-                .summary(summary)
+                .transactionChart(summary)
                 .build();
     }
 

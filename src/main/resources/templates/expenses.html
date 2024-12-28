@@ -17,7 +17,7 @@
     <!--Chart.js -->
     <script th:src="@{https://cdn.jsdelivr.net/npm/chart.js}"></script>
     <link rel="stylesheet" th:href="@{/css/chart.css}">
-    <input type="hidden" id="expenses" th:value="${summary.summary}"/>
+    <input type="hidden" id="expenses" th:value="${summary.transactionChart}"/>
 </head>
 
 <body>
@@ -113,7 +113,7 @@
 </div>
 
 <script th:src="@{/js/functions.js}"></script>
-<script th:src="@{/js/char-expenses.js}"></script>
+<script th:src="@{/js/chart-expenses.js}"></script>
 <script th:src="@{/js/form-validator.js}"></script>
 <div th:insert="fragments/bootstrap-scripts.html :: bootstrap-scripts"></div>
 

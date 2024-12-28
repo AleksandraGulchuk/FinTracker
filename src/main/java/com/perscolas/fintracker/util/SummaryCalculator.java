@@ -14,14 +14,14 @@ import java.util.Map;
 
 public class SummaryCalculator {
 
-    public static Map<String, BigDecimal> getGroupByCategories(List<TransactionDto> expenses) {
+    public static Map<String, BigDecimal> getGroupByCategories(List<TransactionDto> transactions) {
         Map<String, BigDecimal> map = new LinkedHashMap<>();
-        for (TransactionDto expense : expenses) {
-            String category = expense.getCategory();
+        for (TransactionDto transaction : transactions) {
+            String category = transaction.getCategory();
             if (map.containsKey(category)) {
-                map.put(category, map.get(category).add(expense.getAmount()));
+                map.put(category, map.get(category).add(transaction.getAmount()));
             } else {
-                map.put(category, expense.getAmount());
+                map.put(category, transaction.getAmount());
             }
         }
         return map;

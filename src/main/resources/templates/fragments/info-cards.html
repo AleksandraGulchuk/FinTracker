@@ -12,6 +12,7 @@
                 <h5 class="card-title">Income
                   <img th:src="@{/img/icons/increasing.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
                 </h5>
+                <img th:src="@{/img/icons/dollar.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
                 <input type="text" id="incomes-total" size="12" th:field="${dashboard.incomeAmount}"
                        disabled/>
               </div>
@@ -23,6 +24,7 @@
                 <h5 class="card-title">Expense
                   <img th:src="@{/img/icons/decreasing.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
                 </h5>
+                <img th:src="@{/img/icons/dollar.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
                 <input type="text" id="expenses-total" size="12"
                        th:field="${dashboard.expenseAmount}" disabled/>
               </div>
@@ -31,7 +33,10 @@
           <div class="col-sm">
             <div class="card" style="width: 18rem;">
               <div class="card-body">
-                <h5 class="card-title">Balance</h5>
+                <h5 class="card-title">Balance
+                  <img th:src="@{/img/icons/balance.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
+                </h5>
+                <img th:src="@{/img/icons/dollar.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
                 <input type="text" id="balance-total" size="12" th:field="${dashboard.balance}"
                        disabled/>
               </div>

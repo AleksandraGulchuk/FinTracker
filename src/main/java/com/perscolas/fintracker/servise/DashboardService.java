@@ -25,10 +25,11 @@ public class DashboardService {
                 .expenseAmount(transactionsSummary.getExpenseAmount())
                 .incomeAmount(transactionsSummary.getIncomeAmount())
                 .balance(transactionsSummary.getBalance())
-                .balancesChar(SummaryCalculator.getTransactionsHistory(transactions, period))
-                .categoriesChar(SummaryCalculator.getGroupByCategories(expenses))
-                .incomesSummary(SummaryCalculator.getTransactionsHistory(incomes, period))
-                .expensesSummary(SummaryCalculator.getTransactionsHistory(expenses, period))
+                .balancesChart(SummaryCalculator.getTransactionsHistory(transactions, period))
+                .expenseCategoriesChart(SummaryCalculator.getGroupByCategories(expenses))
+                .incomeCategoriesChart(SummaryCalculator.getGroupByCategories(incomes))
+                .incomesChart(SummaryCalculator.getTransactionsHistory(incomes, period))
+                .expensesChart(SummaryCalculator.getTransactionsHistory(expenses, period))
                 .build();
     }
 
