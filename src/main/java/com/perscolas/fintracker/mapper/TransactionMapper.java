@@ -3,6 +3,7 @@ package com.perscolas.fintracker.mapper;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
 import com.perscolas.fintracker.model.dto.transaction.TransactionSaveDto;
 import com.perscolas.fintracker.model.entity.*;
+import com.perscolas.fintracker.util.Constants;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class TransactionMapper {
     public TransactionDto expenseToDto(Expense expense) {
         return TransactionDto.builder()
                 .id(expense.getId())
-                .type("expense")
+                .type(Constants.EXPENSE)
                 .category(expense.getExpenseCategory().getName())
                 .date(expense.getDate())
                 .amount(expense.getAmount())
@@ -30,7 +31,7 @@ public class TransactionMapper {
     public TransactionDto incomeToDto(Income income) {
         return TransactionDto.builder()
                 .id(income.getId())
-                .type("income")
+                .type(Constants.INCOME)
                 .category(income.getIncomeCategory().getName())
                 .date(income.getDate())
                 .amount(income.getAmount())
@@ -46,6 +47,7 @@ public class TransactionMapper {
 
     public Income dtoToIncome(TransactionSaveDto dto) {
         return Income.builder()
+                .id(dto.getTransactionId())
                 .userAccount(UserAccount.builder().id(dto.getUserId()).build())
                 .incomeCategory(IncomeCategory.builder().id(dto.getCategoryId()).build())
                 .amount(dto.getAmount())

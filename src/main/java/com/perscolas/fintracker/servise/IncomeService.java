@@ -43,15 +43,22 @@ public class IncomeService {
                 .build();
     }
 
-    public void createIncome(String userName, TransactionSaveDto dto) {
+    public void createIncome(String userName, TransactionSaveDto transaction) {
         UUID userId = userService.getUserIdByUserName(userName);
-        dto.setUserId(userId);
-        Income income = transactionMapper.dtoToIncome(dto);
+        transaction.setUserId(userId);
+        Income income = transactionMapper.dtoToIncome(transaction);
         incomeRepository.save(income);
     }
 
     public void deleteIncome(UUID incomeId) {
         incomeRepository.deleteById(incomeId);
+    }
+
+    public void updateIncome(String userName, TransactionSaveDto transaction) {
+        UUID userId = userService.getUserIdByUserName(userName);
+        transaction.setUserId(userId);
+        Income income = transactionMapper.dtoToIncome(transaction);
+        incomeRepository.save(income);
     }
 
     public List<Income> findAllIncomesByUserIdAndDateAfter(UUID userId, LocalDate date) {
@@ -73,5 +80,4 @@ public class IncomeService {
                 .map(transactionMapper::incomeToDto)
                 .toList();
     }
-
 }

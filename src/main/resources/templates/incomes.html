@@ -95,6 +95,8 @@
                         <th>Date</th>
                         <th>Amount</th>
                         <th>Description</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -103,6 +105,23 @@
                         <td th:text="${transaction.date}"></td>
                         <td th:text="${transaction.amount}"></td>
                         <td th:text="${transaction.description}"></td>
+                        <td>
+                            <a data-toggle="modal" th:href="'#modalDelete-' + ${transaction.id}">
+                                <img th:src="@{/img/icons/delete.png}" width="30" height="30"
+                                     class="d-inline-block align-top" alt="" data-toggle="tooltip" data-placement="top"
+                                     title="Delete">
+                            </a>
+                            <div th:replace="fragments/modal-delete.html :: modal-delete(transaction=${transaction})"></div>
+                        </td>
+
+                        <td>
+                            <a data-toggle="modal" th:href="'#modalUpdate-' + ${transaction.id}">
+                                <img th:src="@{/img/icons/update.png}" width="30" height="30"
+                                     class="d-inline-block align-top" alt="" data-toggle="tooltip" data-placement="top"
+                                     title="Update">
+                            </a>
+                            <div th:replace="fragments/modal-update.html :: modal-update(transaction=${transaction})"></div>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -110,6 +129,7 @@
         </main>
     </div>
 </div>
+
 
 <script th:src="@{/js/functions.js}"></script>
 <script th:src="@{/js/chart-incomes.js}"></script>

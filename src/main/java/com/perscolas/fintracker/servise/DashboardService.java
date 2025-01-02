@@ -3,6 +3,7 @@ package com.perscolas.fintracker.servise;
 import com.perscolas.fintracker.model.dto.dashboard.DashboardDto;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
 import com.perscolas.fintracker.model.dto.transaction.TransactionsSummaryDto;
+import com.perscolas.fintracker.util.Constants;
 import com.perscolas.fintracker.util.SummaryCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ public class DashboardService {
     public DashboardDto getDashboard(String userName, String period) {
         TransactionsSummaryDto transactionsSummary = transactionService.getTransactionsSummary(userName, period);
         List<TransactionDto> transactions = transactionsSummary.getTransactions();
-        List<TransactionDto> incomes = getTransactionsByType(transactions, "income");
-        List<TransactionDto> expenses = getTransactionsByType(transactions, "expense");
+        List<TransactionDto> incomes = getTransactionsByType(transactions, Constants.INCOME);
+        List<TransactionDto> expenses = getTransactionsByType(transactions, Constants.EXPENSE);
 
         return DashboardDto.builder()
                 .expenseAmount(transactionsSummary.getExpenseAmount())

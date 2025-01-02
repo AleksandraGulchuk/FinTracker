@@ -3,6 +3,7 @@ package com.perscolas.fintracker.controller;
 import com.perscolas.fintracker.model.Period;
 import com.perscolas.fintracker.model.dto.transaction.TransactionSaveDto;
 import com.perscolas.fintracker.servise.IncomeService;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,21 +25,27 @@ public class IncomeController {
     @GetMapping()
     public String getSummary(Model model, Principal principal) {
         model.addAttribute("transaction", new TransactionSaveDto());
+        model.addAttribute("transactionData", new TransactionSaveDto());
         model.addAttribute("summary", incomeService.getSummary(principal.getName(), Period.SIX_MONTHS.stringValue));
         return "incomes";
     }
 
     @PostMapping("/create")
     public String create(@ModelAttribute TransactionSaveDto transaction, Principal principal) {
-        String userName = principal.getName();
-
         incomeService.createIncome(principal.getName(), transaction);
         return "redirect:/incomes";
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable(name = "id") UUID id) {
-        incomeService.deleteIncome(id);
+    @PostMapping("/delete")
+    public String delete(@PathParam("transactionId") UUID transactionId) {
+        incomeService.deleteIncome(transactionId);
+        return "redirect:/incomes";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute TransactionSaveDto transaction, Principal principal) {
+        incomeService.updateIncome(principal.getName(), transaction);
+        return "redirect:/incomes";
     }
 
 }

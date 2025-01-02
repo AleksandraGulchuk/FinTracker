@@ -39,11 +39,7 @@ public class SummaryCalculator {
     }
 
     private static Map<String, BigDecimal> getTransactionsSummaryByOneMonth(List<TransactionDto> transactions) {
-        Map<String, BigDecimal> bindMap = new HashMap<>();
-        bindMap.put("Week 1", BigDecimal.ZERO);
-        bindMap.put("Week 2", BigDecimal.ZERO);
-        bindMap.put("Week 3", BigDecimal.ZERO);
-        bindMap.put("Week 4", BigDecimal.ZERO);
+        Map<String, BigDecimal> bindMap = getOneMonthMap();
         for (TransactionDto transaction : transactions) {
             int dayOfMonth = transaction.getDate().getDayOfMonth();
             String unit = getWeekOfDay(dayOfMonth);
@@ -52,17 +48,26 @@ public class SummaryCalculator {
         return bindMap;
     }
 
+    private static Map<String, BigDecimal> getOneMonthMap() {
+        Map<String, BigDecimal> bindMap = new HashMap<>();
+        bindMap.put(Constants.WEEK_ONE, BigDecimal.ZERO);
+        bindMap.put(Constants.WEEK_TWO, BigDecimal.ZERO);
+        bindMap.put(Constants.WEEK_THREE, BigDecimal.ZERO);
+        bindMap.put(Constants.WEEK_FOUR, BigDecimal.ZERO);
+        return bindMap;
+    }
+
     private static String getWeekOfDay(int dayOfMonth) {
         if (dayOfMonth < 7) {
-            return "Week 1";
+            return Constants.WEEK_ONE;
         }
         if (dayOfMonth < 14) {
-            return "Week 2";
+            return Constants.WEEK_TWO;
         }
         if (dayOfMonth < 21) {
-            return "Week 3";
+            return Constants.WEEK_THREE;
         }
-        return "Week 4";
+        return Constants.WEEK_FOUR;
     }
 
     private static Map<String, BigDecimal> getTransactionsSummaryByWeek(List<TransactionDto> transactions, String period) {
@@ -109,12 +114,12 @@ public class SummaryCalculator {
     private static void putTransaction(TransactionDto transaction, Map<String, BigDecimal> bindMap, String unit) {
         String type = transaction.getType();
         if (bindMap.containsKey(unit)) {
-            BigDecimal total = type.equals("income")
+            BigDecimal total = type.equals(Constants.INCOME)
                     ? bindMap.get(unit).add(transaction.getAmount())
                     : bindMap.get(unit).subtract(transaction.getAmount());
             bindMap.put(unit, total);
         } else {
-            bindMap.put(unit, type.equals("income")
+            bindMap.put(unit, type.equals(Constants.INCOME)
                     ? transaction.getAmount()
                     : BigDecimal.ZERO.subtract(transaction.getAmount()));
         }
