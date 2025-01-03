@@ -1,7 +1,7 @@
 package com.perscolas.fintracker.controller;
 
 import com.perscolas.fintracker.model.Period;
-import com.perscolas.fintracker.model.dto.transaction.TransactionSaveDto;
+import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
 import com.perscolas.fintracker.servise.IncomeService;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
@@ -24,14 +24,13 @@ public class IncomeController {
 
     @GetMapping()
     public String getSummary(Model model, Principal principal) {
-        model.addAttribute("transaction", new TransactionSaveDto());
-        model.addAttribute("transactionData", new TransactionSaveDto());
+        model.addAttribute("transaction", new TransactionDto());
         model.addAttribute("summary", incomeService.getSummary(principal.getName(), Period.SIX_MONTHS.stringValue));
         return "incomes";
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute TransactionSaveDto transaction, Principal principal) {
+    public String create(@ModelAttribute TransactionDto transaction, Principal principal) {
         incomeService.createIncome(principal.getName(), transaction);
         return "redirect:/incomes";
     }
@@ -43,7 +42,7 @@ public class IncomeController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute TransactionSaveDto transaction, Principal principal) {
+    public String update(@ModelAttribute TransactionDto transaction, Principal principal) {
         incomeService.updateIncome(principal.getName(), transaction);
         return "redirect:/incomes";
     }

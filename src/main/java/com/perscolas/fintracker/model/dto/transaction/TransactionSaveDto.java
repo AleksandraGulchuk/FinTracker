@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class TransactionSaveDto {
 
-    private UUID transactionId;
+    private UUID id;
     private UUID userId;
     private UUID categoryId;
     private LocalDate date;

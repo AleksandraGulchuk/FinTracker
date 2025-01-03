@@ -7,10 +7,14 @@
      th:fragment="modal-update(transaction)">
     <div class="modal-dialog" role="document">
         <form th:action="@{/incomes/update}" method="post" th:object="${transaction}">
-            <input type="hidden" name="transactionId" id="transactionId" th:value="${transaction.id}"/>
+            <input type="hidden" name="id" id="id" th:value="${transaction.id}"/>
+            <input type="hidden" name="transactionData" id="transactionData" th:value="${transaction}"/>
+
+            <script>console.log(document.getElementById("transactionData").value)</script>
+
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Update this transaction?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Update transaction</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -21,18 +25,20 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label for="category">Select Category</label>
-                                    <select class="form-control" th:field="*{categoryId}">
+                                    <select class="form-control" th:field="${transaction.categoryId}" id="category">
                                         <option th:each="category : ${summary.categories}"
-                                                th:value="${category.id}" th:text="${category.name}"
-                                                id="category" name="category"></option>
+                                                th:value="${category.id}"
+                                                th:text="${category.name}"
+                                                th:selected="${category.id == transaction.categoryId}">
+                                        </option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label for="date">Date</label>
-                                    <input type="date" class="form-control" id="date" max="" value="" required
-                                           th:field="*{date}">
+                                    <input type="date" class="form-control" id="date" max="" required
+                                           th:field="${transaction.date}">
                                 </div>
                             </div>
                         </div>
@@ -41,15 +47,15 @@
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
                                     <input type="number" class="form-control" id="amount" min="0.01" step="0.01"
-                                           value="1.00"
-                                           placeholder="0.01" required th:field="*{amount}">
+                                           placeholder="0.01" required th:field="${transaction.amount}">
+
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label for="description">Description</label>
                                     <textarea class="form-control" id="description" rows="1"
-                                              th:field="*{description}"></textarea>
+                                              th:field="${transaction.description}"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -57,11 +63,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" name="submit" class="btn btn-danger">Update</button>
+                    <button type="submit" name="submit" class="btn btn btn-success">Update</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
 
 </html>

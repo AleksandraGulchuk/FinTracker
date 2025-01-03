@@ -16,6 +16,7 @@ public class TransactionMapper {
                 .id(expense.getId())
                 .type(Constants.EXPENSE)
                 .category(expense.getExpenseCategory().getName())
+                .categoryId(expense.getExpenseCategory().getId())
                 .date(expense.getDate())
                 .amount(expense.getAmount())
                 .description(expense.getDescription())
@@ -33,6 +34,7 @@ public class TransactionMapper {
                 .id(income.getId())
                 .type(Constants.INCOME)
                 .category(income.getIncomeCategory().getName())
+                .categoryId(income.getIncomeCategory().getId())
                 .date(income.getDate())
                 .amount(income.getAmount())
                 .description(income.getDescription())
@@ -45,9 +47,9 @@ public class TransactionMapper {
                 .toList();
     }
 
-    public Income dtoToIncome(TransactionSaveDto dto) {
+    public Income dtoToIncome(TransactionDto dto) {
         return Income.builder()
-                .id(dto.getTransactionId())
+                .id(dto.getId())
                 .userAccount(UserAccount.builder().id(dto.getUserId()).build())
                 .incomeCategory(IncomeCategory.builder().id(dto.getCategoryId()).build())
                 .amount(dto.getAmount())

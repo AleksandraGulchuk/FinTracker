@@ -16,8 +16,10 @@ import java.util.UUID;
 public class TransactionDto {
 
     private UUID id;
+    private UUID userId;
     private String type;
     private String category;
+    private UUID categoryId;
     private LocalDate date;
     private BigDecimal amount;
     private String description;

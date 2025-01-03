@@ -5,7 +5,6 @@ import com.perscolas.fintracker.mapper.TransactionMapper;
 import com.perscolas.fintracker.model.dto.category.CategoryDto;
 import com.perscolas.fintracker.model.dto.transaction.SummaryDto;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
-import com.perscolas.fintracker.model.dto.transaction.TransactionSaveDto;
 import com.perscolas.fintracker.model.entity.Income;
 import com.perscolas.fintracker.repository.IncomeCategoryRepository;
 import com.perscolas.fintracker.repository.IncomeRepository;
@@ -43,7 +42,7 @@ public class IncomeService {
                 .build();
     }
 
-    public void createIncome(String userName, TransactionSaveDto transaction) {
+    public void createIncome(String userName, TransactionDto transaction) {
         UUID userId = userService.getUserIdByUserName(userName);
         transaction.setUserId(userId);
         Income income = transactionMapper.dtoToIncome(transaction);
@@ -54,7 +53,7 @@ public class IncomeService {
         incomeRepository.deleteById(incomeId);
     }
 
-    public void updateIncome(String userName, TransactionSaveDto transaction) {
+    public void updateIncome(String userName, TransactionDto transaction) {
         UUID userId = userService.getUserIdByUserName(userName);
         transaction.setUserId(userId);
         Income income = transactionMapper.dtoToIncome(transaction);
