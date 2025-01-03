@@ -113,7 +113,7 @@
                                th:data-amount="${transaction.amount}"
                                th:data-description="${transaction.description}"
                                th:attr="data-target=${'#modalUpdate-' + transaction.id}">
-                                <img th:src="@{/img/icons/update.png}" width="30" height="30"
+                                <img th:src="@{/img/icons/pencil.svg}" width="20" height="20"
                                      class="d-inline-block align-top" alt="" data-toggle="tooltip" data-placement="top"
                                      title="Update">
                             </a>
@@ -127,10 +127,10 @@
                                th:data-amount="${transaction.amount}"
                                th:data-description="${transaction.description}"
                                th:attr="data-target=${'#modalDelete-' + transaction.id}">
-                                <img th:src="@{/img/icons/delete.png}" width="30" height="30"
+                                <img th:src="@{/img/icons/trash.svg}" width="20" height="20"
                                      class="d-inline-block align-top" alt="" data-toggle="tooltip" data-placement="top"
                                      title="Delete">
-                            </a>
+                                </a>
                             <div th:replace="fragments/modal-delete.html :: modal-delete(transaction=${transaction})"></div>
                         </td>
                     </tr>
