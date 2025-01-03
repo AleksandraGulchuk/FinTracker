@@ -1,7 +1,6 @@
 package com.perscolas.fintracker.mapper;
 
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
-import com.perscolas.fintracker.model.dto.transaction.TransactionSaveDto;
 import com.perscolas.fintracker.model.entity.*;
 import com.perscolas.fintracker.util.Constants;
 import org.springframework.stereotype.Component;
@@ -58,7 +57,7 @@ public class TransactionMapper {
                 .build();
     }
 
-    public Expense dtoToExpense(TransactionSaveDto dto) {
+    public Expense dtoToExpense(TransactionDto dto) {
         return Expense.builder()
                 .userAccount(UserAccount.builder().id(dto.getUserId()).build())
                 .expenseCategory(ExpenseCategory.builder().id(dto.getCategoryId()).build())

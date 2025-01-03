@@ -5,7 +5,6 @@ import com.perscolas.fintracker.mapper.TransactionMapper;
 import com.perscolas.fintracker.model.dto.category.CategoryDto;
 import com.perscolas.fintracker.model.dto.transaction.SummaryDto;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
-import com.perscolas.fintracker.model.dto.transaction.TransactionSaveDto;
 import com.perscolas.fintracker.model.entity.Expense;
 import com.perscolas.fintracker.repository.ExpenseCategoryRepository;
 import com.perscolas.fintracker.repository.ExpenseRepository;
@@ -43,7 +42,7 @@ public class ExpenseService {
                 .build();
     }
 
-    public void createIncome(String userName, TransactionSaveDto dto) {
+    public void createExpense(String userName, TransactionDto dto) {
         UUID userId = userService.getUserIdByUserName(userName);
         dto.setUserId(userId);
         Expense expense = transactionMapper.dtoToExpense(dto);
