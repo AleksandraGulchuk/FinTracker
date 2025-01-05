@@ -3,11 +3,11 @@
 
 
 <!-- Modal -->
-<div class="modal fade" th:id="'modalUpdate-' + ${transaction.id}" tabindex="-1" role="dialog" aria-hidden="true"
+<div class="modal fade" th:id="'modalUpdate-' + ${transaction.transactionId}" tabindex="-1" role="dialog" aria-hidden="true"
      th:fragment="modal-update(transaction)">
     <div class="modal-dialog" role="document">
-        <form th:action="@{/incomes/update}" method="post" th:object="${transaction}">
-            <input type="hidden" name="id" id="id" th:value="${transaction.id}"/>
+        <form th:action="@{'/' + ${transaction.type} + 's/update'}" method="post" th:object="${transaction}">
+            <input type="hidden" name="transactionId" id="transactionId" th:value="${transaction.transactionId}"/>
             <input type="hidden" name="transactionData" id="transactionData" th:value="${transaction}"/>
 
             <script>console.log(document.getElementById("transactionData").value)</script>

@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TransactionDto {
 
-    private UUID id;
+    private UUID transactionId;
     private UUID userId;
     private String type;
     private String category;

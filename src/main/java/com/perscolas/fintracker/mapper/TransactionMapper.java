@@ -12,7 +12,7 @@ public class TransactionMapper {
 
     public TransactionDto expenseToDto(Expense expense) {
         return TransactionDto.builder()
-                .id(expense.getId())
+                .transactionId(expense.getId())
                 .type(Constants.EXPENSE)
                 .category(expense.getExpenseCategory().getName())
                 .categoryId(expense.getExpenseCategory().getId())
@@ -30,7 +30,7 @@ public class TransactionMapper {
 
     public TransactionDto incomeToDto(Income income) {
         return TransactionDto.builder()
-                .id(income.getId())
+                .transactionId(income.getId())
                 .type(Constants.INCOME)
                 .category(income.getIncomeCategory().getName())
                 .categoryId(income.getIncomeCategory().getId())
@@ -48,7 +48,7 @@ public class TransactionMapper {
 
     public Income dtoToIncome(TransactionDto dto) {
         return Income.builder()
-                .id(dto.getId())
+                .id(dto.getTransactionId())
                 .userAccount(UserAccount.builder().id(dto.getUserId()).build())
                 .incomeCategory(IncomeCategory.builder().id(dto.getCategoryId()).build())
                 .amount(dto.getAmount())
@@ -59,6 +59,7 @@ public class TransactionMapper {
 
     public Expense dtoToExpense(TransactionDto dto) {
         return Expense.builder()
+                .id(dto.getTransactionId())
                 .userAccount(UserAccount.builder().id(dto.getUserId()).build())
                 .expenseCategory(ExpenseCategory.builder().id(dto.getCategoryId()).build())
                 .amount(dto.getAmount())

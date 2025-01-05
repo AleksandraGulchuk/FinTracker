@@ -8,13 +8,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const modal = document.getElementById(modalId);
 
             if (modal) {
-                const id = button.getAttribute("data-id");
+                const transactionId = button.getAttribute("data-transaction-id");
                 const categoryId = button.getAttribute("data-category-id");
                 const date = button.getAttribute("data-date");
                 const amount = button.getAttribute("data-amount");
                 const description = button.getAttribute("data-description");
 
-                modal.querySelector("#id").value = id;
+                modal.querySelector("#transactionId").value = transactionId;
                 modal.querySelector("#category").value = categoryId;
                 modal.querySelector("#date").value = date;
                 modal.querySelector("#amount").value = amount;

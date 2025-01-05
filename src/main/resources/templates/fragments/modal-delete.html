@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 
-<!-- Modal -->
-<div class="modal fade" th:id="'modalDelete-' + ${transaction.id}" tabindex="-1" role="dialog" aria-hidden="true"
+<div class="modal fade" th:id="'modalDelete-' + ${transaction.transactionId}" tabindex="-1" role="dialog"
+     aria-hidden="true"
      th:fragment="modal-delete(transaction)">
     <div class="modal-dialog" role="document">
-        <form th:action="@{/incomes/delete(transactionId=${transaction.id})}" method="post" th:object="${transaction}">
-            <input type="hidden" name="id" id="id" th:value="${transaction.id}"/>
+        <form th:action="@{'/' + ${transaction.type} + 's/delete'}" method="post" th:object="${transaction}">
+            <input type="hidden" name="transactionId" id="transactionId" th:value="${transaction.transactionId}"/>
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to

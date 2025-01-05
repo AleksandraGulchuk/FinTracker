@@ -3,6 +3,7 @@ package com.perscolas.fintracker.controller;
 import com.perscolas.fintracker.model.Period;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
 import com.perscolas.fintracker.servise.ExpenseService;
+import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,9 +35,16 @@ public class ExpenseController {
         return "redirect:/expenses";
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable(name = "id") UUID id) {
-        expenseService.deleteIncome(id);
+    @PostMapping("/delete")
+    public String delete(@PathParam("transactionId") UUID transactionId) {
+        expenseService.deleteExpense(transactionId);
+        return "redirect:/expenses";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute TransactionDto transaction, Principal principal) {
+        expenseService.updateExpense(principal.getName(), transaction);
+        return "redirect:/expenses";
     }
 
 }

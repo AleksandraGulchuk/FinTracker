@@ -29,7 +29,7 @@
             <div th:replace="fragments/info-cards.html :: info-cards(module='transactions')"></div>
 
             <div class="table-responsive">
-                <table class="table table-sm text-center table-striped">
+                <table class="table table-hover table-sm text-center">
                     <thead>
                     <tr>
                         <th>Type</th>
@@ -42,10 +42,12 @@
                     <tbody>
                     <tr th:each="transaction : ${dashboard.transactions}">
                         <td th:if="${transaction.type} == 'income'">
-                            <img th:src="@{/img/icons/increasing.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
+                            <img th:src="@{/img/icons/increasing.png}" width="28" height="28"
+                                 class="d-inline-block align-top" alt=""/>
                         </td>
                         <td th:if="${transaction.type} == 'expense'">
-                            <img th:src="@{/img/icons/decreasing.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
+                            <img th:src="@{/img/icons/decreasing.png}" width="28" height="28"
+                                 class="d-inline-block align-top" alt=""/>
                         </td>
                         <td th:text="${transaction.category}"></td>
                         <td th:text="${transaction.date}"></td>
@@ -60,7 +62,6 @@
 </div>
 
 
-<script th:src="@{/js/transactions.js}"></script>
 <div th:insert="fragments/bootstrap-scripts.html :: bootstrap-scripts"></div>
 
 </body>

@@ -49,8 +49,15 @@ public class ExpenseService {
         expenseRepository.save(expense);
     }
 
-    public void deleteIncome(UUID incomeId) {
+    public void deleteExpense(UUID incomeId) {
         expenseRepository.deleteById(incomeId);
+    }
+
+    public void updateExpense(String userName, TransactionDto transaction) {
+        UUID userId = userService.getUserIdByUserName(userName);
+        transaction.setUserId(userId);
+        Expense expense = transactionMapper.dtoToExpense(transaction);
+        expenseRepository.save(expense);
     }
 
     public List<Expense> findAllExpensesByUserIdAndDateAfter(UUID userId, LocalDate date) {
