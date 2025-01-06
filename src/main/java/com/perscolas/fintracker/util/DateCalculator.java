@@ -20,7 +20,6 @@ public class DateCalculator {
     private static LocalDate getStartDateOfThisWeek() {
         LocalDate now = LocalDate.now();
         int dayOfWeek = now.getDayOfWeek().getValue();
-        //TODO: Fix START DATE for Sunday!!!!
         return now.minusDays(dayOfWeek - 1);
     }
 

@@ -103,8 +103,7 @@ public class SummaryCalculator {
     private static Map<String, BigDecimal> fillEmptyDays(Map<String, BigDecimal> transactionsSummary, String timeDuration) {
         Map<String, BigDecimal> map = new LinkedHashMap<>();
         LocalDate startDate = DateCalculator.getStartDateByTimeDuration(timeDuration);
-        int timeDurationLength = LocalDate.now().getDayOfWeek().getValue();
-        for (int i = 0; i < timeDurationLength + 1; i++) {
+        for (int i = 0; i < 8; i++) {
             String day = startDate.plusDays(i).getDayOfWeek().toString();
             map.put(day, transactionsSummary.getOrDefault(day, BigDecimal.ZERO));
         }
