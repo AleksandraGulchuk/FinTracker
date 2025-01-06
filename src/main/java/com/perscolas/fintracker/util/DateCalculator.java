@@ -1,20 +1,18 @@
 package com.perscolas.fintracker.util;
 
-import com.perscolas.fintracker.model.Period;
+import com.perscolas.fintracker.model.TimeDuration;
 
 import java.time.LocalDate;
-import java.time.Month;
 
 
 public class DateCalculator {
 
-    public static LocalDate getStartDateByPeriod(String period) {
-        Period enumPeriod = Period.periodOfStringValue(period);
-        LocalDate startDate = switch (enumPeriod) {
+    public static LocalDate getStartDateByTimeDuration(String timeDuration) {
+        TimeDuration enumTimeDuration = TimeDuration.timeDurationOfStringValue(timeDuration);
+        LocalDate startDate = switch (enumTimeDuration) {
             case WEEK -> getStartDateOfThisWeek();
             case MONTH -> getStartDateOfThisMonth();
-            case YEAR -> getStartDateOfThisYear();
-            default -> getStartDateOfMonths(enumPeriod);
+            default -> getStartDateOfMonths(enumTimeDuration);
         };
         return startDate;
     }
@@ -22,8 +20,8 @@ public class DateCalculator {
     private static LocalDate getStartDateOfThisWeek() {
         LocalDate now = LocalDate.now();
         int dayOfWeek = now.getDayOfWeek().getValue();
-        //TODO: CHECK START DATE!!!!
-        return now.minusDays(dayOfWeek);
+        //TODO: Fix START DATE for Sunday!!!!
+        return now.minusDays(dayOfWeek - 1);
     }
 
     private static LocalDate getStartDateOfThisMonth() {
@@ -31,15 +29,9 @@ public class DateCalculator {
         return LocalDate.of(now.getYear(), now.getMonth(), 1);
     }
 
-    private static LocalDate getStartDateOfThisYear() {
-        LocalDate now = LocalDate.now();
-        return LocalDate.of(now.getYear(), 1, 1);
-    }
-
-    private static LocalDate getStartDateOfMonths(Period period) {
-        LocalDate now = LocalDate.now();
-        Month startPeriodMonth = now.getMonth().minus(period.intValue);
-        return LocalDate.of(now.getYear(), startPeriodMonth.plus(1), 1);
+    private static LocalDate getStartDateOfMonths(TimeDuration timeDuration) {
+        LocalDate startTimeDuration = LocalDate.now().minusMonths(timeDuration.intValue);
+        return LocalDate.of(startTimeDuration.getYear(), startTimeDuration.getMonth().plus(1), 1);
     }
 
 }

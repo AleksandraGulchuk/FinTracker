@@ -5,14 +5,14 @@
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link btn-outline-secondary" href="" th:href="@{/dashboard?period=This+month}"
+              <a class="nav-link btn-outline-secondary" href="" th:href="@{/dashboard?timeDuration=This+month}"
                  th:classappend="${module == 'dashboard' ? 'active' : ''}">
                 <img th:src="@{/img/icons/dashboard.png}" width="28" height="28" class="d-inline-block align-top" alt="">
                 <span class="align-middle">Dashboard</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link btn-outline-secondary" href="" th:href="@{/transactions?period=This+month}"
+              <a class="nav-link btn-outline-secondary" href="" th:href="@{/transactions?timeDuration=This+month}"
                  th:classappend="${module == 'transactions' ? 'active' : ''}">
                 <img th:src="@{/img/icons/transaction.png}" width="28" height="28" class="d-inline-block align-top" alt="">
                 <span class="align-middle">Transactions</span>

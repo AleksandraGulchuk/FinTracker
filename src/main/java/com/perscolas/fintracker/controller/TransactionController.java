@@ -1,6 +1,6 @@
 package com.perscolas.fintracker.controller;
 
-import com.perscolas.fintracker.model.Period;
+import com.perscolas.fintracker.model.TimeDuration;
 import com.perscolas.fintracker.model.dto.transaction.TransactionsSummaryDto;
 import com.perscolas.fintracker.servise.TransactionService;
 import jakarta.websocket.server.PathParam;
@@ -22,9 +22,9 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @GetMapping()
-    public String getTransactions(@PathParam("period") String period, Model model, Principal principal) {
-        TransactionsSummaryDto summary = transactionService.getTransactionsSummary(principal.getName(), period);
-        summary.setActive(Period.periodOfStringValue(period));
+    public String getTransactions(@PathParam("timeDuration") String timeDuration, Model model, Principal principal) {
+        TransactionsSummaryDto summary = transactionService.getTransactionsSummary(principal.getName(), timeDuration);
+        summary.setActive(TimeDuration.timeDurationOfStringValue(timeDuration));
         model.addAttribute("dashboard", summary);
         return "transactions";
     }

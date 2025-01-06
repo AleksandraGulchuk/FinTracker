@@ -31,10 +31,10 @@ public class ExpenseService {
     private final UserService userService;
 
 
-    public SummaryDto getSummary(String userName, String period) {
+    public SummaryDto getSummary(String userName, String timeDuration) {
         UUID userId = userService.getUserIdByUserName(userName);
         List<TransactionDto> transactions = getTransactions(userId);
-        Map<String, BigDecimal> summary = SummaryCalculator.getTransactionsHistory(transactions, period);
+        Map<String, BigDecimal> summary = SummaryCalculator.getTransactionsHistory(transactions, timeDuration);
         return SummaryDto.builder()
                 .transactions(transactions)
                 .categories(getCategories())

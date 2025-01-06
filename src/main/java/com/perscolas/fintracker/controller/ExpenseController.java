@@ -1,6 +1,6 @@
 package com.perscolas.fintracker.controller;
 
-import com.perscolas.fintracker.model.Period;
+import com.perscolas.fintracker.model.TimeDuration;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
 import com.perscolas.fintracker.servise.ExpenseService;
 import jakarta.websocket.server.PathParam;
@@ -25,7 +25,7 @@ public class ExpenseController {
     @GetMapping()
     public String getSummary(Model model, Principal principal) {
         model.addAttribute("transaction", new TransactionDto());
-        model.addAttribute("summary", expenseService.getSummary(principal.getName(), Period.SIX_MONTHS.stringValue));
+        model.addAttribute("summary", expenseService.getSummary(principal.getName(), TimeDuration.SIX_MONTHS.stringValue));
         return "expenses";
     }
 

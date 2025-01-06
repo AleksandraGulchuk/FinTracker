@@ -49,9 +49,9 @@
 
         <form th:action="@{'/' + ${module}}" method="get">
           <div class="btn-group-vertical" role="group">
-            <input type="submit" name="period" class="btn btn-secondary"
-                   th:each="period : ${dashboard.periods}" th:value="${period.stringValue}"
-                   th:checked="${period.stringValue} eq ${dashboard.active.stringValue}">
+            <input type="submit" name="timeDuration" class="btn btn-secondary"
+                   th:each="timeDuration : ${dashboard.timeDurations}" th:value="${timeDuration.stringValue}"
+                   th:checked="${timeDuration.stringValue} eq ${dashboard.active.stringValue}">
           </div>
         </form>
       </div>

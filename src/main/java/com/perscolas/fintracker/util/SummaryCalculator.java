@@ -1,7 +1,7 @@
 package com.perscolas.fintracker.util;
 
 
-import com.perscolas.fintracker.model.Period;
+import com.perscolas.fintracker.model.TimeDuration;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
 
 import java.math.BigDecimal;
@@ -27,13 +27,13 @@ public class SummaryCalculator {
         return map;
     }
 
-    public static Map<String, BigDecimal> getTransactionsHistory(List<TransactionDto> transactions, String period) {
+    public static Map<String, BigDecimal> getTransactionsHistory(List<TransactionDto> transactions, String timeDuration) {
         Map<String, BigDecimal> transactionsHistory;
-        Period periodEnum = Period.periodOfStringValue(period);
-        transactionsHistory = switch (periodEnum) {
-            case WEEK -> getTransactionsSummaryByWeek(transactions, period);
+        TimeDuration timeDurationEnum = TimeDuration.timeDurationOfStringValue(timeDuration);
+        transactionsHistory = switch (timeDurationEnum) {
+            case WEEK -> getTransactionsSummaryByWeek(transactions, timeDuration);
             case MONTH -> getTransactionsSummaryByOneMonth(transactions);
-            default -> getTransactionsSummaryByMonths(transactions, period);
+            default -> getTransactionsSummaryByMonths(transactions, timeDuration);
         };
         return transactionsHistory;
     }
@@ -70,41 +70,41 @@ public class SummaryCalculator {
         return Constants.WEEK_FOUR;
     }
 
-    private static Map<String, BigDecimal> getTransactionsSummaryByWeek(List<TransactionDto> transactions, String period) {
+    private static Map<String, BigDecimal> getTransactionsSummaryByWeek(List<TransactionDto> transactions, String timeDuration) {
         Map<String, BigDecimal> bindMap = new HashMap<>();
         for (TransactionDto transaction : transactions) {
             String dayOfWeek = transaction.getDate().getDayOfWeek().toString();
             putTransaction(transaction, bindMap, dayOfWeek);
         }
-        return fillEmptyDays(bindMap, period);
+        return fillEmptyDays(bindMap, timeDuration);
     }
 
-    private static Map<String, BigDecimal> getTransactionsSummaryByMonths(List<TransactionDto> transactions, String period) {
+    private static Map<String, BigDecimal> getTransactionsSummaryByMonths(List<TransactionDto> transactions, String timeDuration) {
         Map<String, BigDecimal> bindMap = new HashMap<>();
         for (TransactionDto transaction : transactions) {
             String month = transaction.getDate().getMonth().toString();
             putTransaction(transaction, bindMap, month);
         }
-        return fillEmptyMonths(bindMap, period);
+        return fillEmptyMonths(bindMap, timeDuration);
     }
 
 
-    private static Map<String, BigDecimal> fillEmptyMonths(Map<String, BigDecimal> transactionsSummary, String period) {
+    private static Map<String, BigDecimal> fillEmptyMonths(Map<String, BigDecimal> transactionsSummary, String timeDuration) {
         Map<String, BigDecimal> map = new LinkedHashMap<>();
-        int periodLength = Period.periodOfStringValue(period).intValue;
-        Month startPeriodMonth = LocalDate.now().getMonth().minus(periodLength);
-        for (int i = 1; i < periodLength + 1; i++) {
-            String month = startPeriodMonth.plus(i).toString();
+        int timeDurationLength = TimeDuration.timeDurationOfStringValue(timeDuration).intValue;
+        Month startTimeDurationMonth = LocalDate.now().getMonth().minus(timeDurationLength);
+        for (int i = 1; i < timeDurationLength + 1; i++) {
+            String month = startTimeDurationMonth.plus(i).toString();
             map.put(month, transactionsSummary.getOrDefault(month, BigDecimal.ZERO));
         }
         return map;
     }
 
-    private static Map<String, BigDecimal> fillEmptyDays(Map<String, BigDecimal> transactionsSummary, String period) {
+    private static Map<String, BigDecimal> fillEmptyDays(Map<String, BigDecimal> transactionsSummary, String timeDuration) {
         Map<String, BigDecimal> map = new LinkedHashMap<>();
-        LocalDate startDate = DateCalculator.getStartDateByPeriod(period);
-        int periodLength = LocalDate.now().getDayOfWeek().getValue();
-        for (int i = 0; i < periodLength + 1; i++) {
+        LocalDate startDate = DateCalculator.getStartDateByTimeDuration(timeDuration);
+        int timeDurationLength = LocalDate.now().getDayOfWeek().getValue();
+        for (int i = 0; i < timeDurationLength + 1; i++) {
             String day = startDate.plusDays(i).getDayOfWeek().toString();
             map.put(day, transactionsSummary.getOrDefault(day, BigDecimal.ZERO));
         }

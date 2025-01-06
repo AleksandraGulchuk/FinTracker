@@ -1,6 +1,6 @@
 package com.perscolas.fintracker.model;
 
-public enum Period {
+public enum TimeDuration {
 
     WEEK("This week", 0),
     MONTH("This month", 1),
@@ -11,18 +11,18 @@ public enum Period {
     public final String stringValue;
     public final int intValue;
 
-    Period(String stringValue, int intValue) {
+    TimeDuration(String stringValue, int intValue) {
         this.stringValue = stringValue;
         this.intValue = intValue;
     }
 
-    public static Period periodOfStringValue(String stringValue) {
-        for (Period p : values()) {
+    public static TimeDuration timeDurationOfStringValue(String stringValue) {
+        for (TimeDuration p : values()) {
             if (p.stringValue.equals(stringValue)) {
                 return p;
             }
         }
-        throw new IllegalArgumentException("Invalid stringValue: " + stringValue + ". Period with this stringValue does not exist");
+        throw new IllegalArgumentException("Invalid stringValue: " + stringValue + ". Time duration with this stringValue does not exist");
     }
 
 }

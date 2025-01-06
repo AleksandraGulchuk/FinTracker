@@ -24,18 +24,18 @@ public class TransactionService {
     private final UserService userService;
 
 
-    public TransactionsSummaryDto getTransactionsSummary(String userName, String period) {
+    public TransactionsSummaryDto getTransactionsSummary(String userName, String timeDuration) {
         UUID userId = userService.getUserIdByUserName(userName);
-        LocalDate date = DateCalculator.getStartDateByPeriod(period).minusDays(1);
+        LocalDate dayBeforeStartTime = DateCalculator.getStartDateByTimeDuration(timeDuration).minusDays(1);
 
-        List<TransactionDto> expensesForPeriod = transactionMapper
-                .expensesToDto(expenseService.findAllExpensesByUserIdAndDateAfter(userId, date));
-        List<TransactionDto> incomesForPeriod = transactionMapper
-                .incomesToDto(incomeService.findAllIncomesByUserIdAndDateAfter(userId, date));
-        List<TransactionDto> transactions = concatTransactions(expensesForPeriod, incomesForPeriod);
+        List<TransactionDto> expenses = transactionMapper
+                .expensesToDto(expenseService.findAllExpensesByUserIdAndDateAfter(userId, dayBeforeStartTime));
+        List<TransactionDto> incomes = transactionMapper
+                .incomesToDto(incomeService.findAllIncomesByUserIdAndDateAfter(userId, dayBeforeStartTime));
+        List<TransactionDto> transactions = concatTransactions(expenses, incomes);
 
-        BigDecimal expenseAmount = getTransactionAmount(expensesForPeriod);
-        BigDecimal incomeAmount = getTransactionAmount(incomesForPeriod);
+        BigDecimal expenseAmount = getTransactionAmount(expenses);
+        BigDecimal incomeAmount = getTransactionAmount(incomes);
         BigDecimal balance = incomeAmount.subtract(expenseAmount);
 
         return TransactionsSummaryDto.builder()
@@ -46,9 +46,9 @@ public class TransactionService {
                 .build();
     }
 
-    private static List<TransactionDto> concatTransactions(List<TransactionDto> expensesForPeriod, List<TransactionDto> incomesForPeriod) {
+    private static List<TransactionDto> concatTransactions(List<TransactionDto> expenses, List<TransactionDto> incomes) {
         return Stream
-                .concat(expensesForPeriod.stream(), incomesForPeriod.stream())
+                .concat(expenses.stream(), incomes.stream())
                 .sorted(Comparator.comparing(TransactionDto::getDate).reversed())
                 .toList();
     }

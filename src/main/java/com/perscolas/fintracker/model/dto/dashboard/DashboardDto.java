@@ -1,6 +1,6 @@
 package com.perscolas.fintracker.model.dto.dashboard;
 
-import com.perscolas.fintracker.model.Period;
+import com.perscolas.fintracker.model.TimeDuration;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,8 +17,8 @@ public class DashboardDto {
     private Map<String, BigDecimal> balancesChart;
     private Map<String, BigDecimal> expenseCategoriesChart;
     private Map<String, BigDecimal> incomeCategoriesChart;
-    private final Period[] periods = Period.values();
-    private Period active;
+    private final TimeDuration[] timeDurations = TimeDuration.values();
+    private TimeDuration active;
     Map<String, BigDecimal> incomesChart;
     Map<String, BigDecimal> expensesChart;
 

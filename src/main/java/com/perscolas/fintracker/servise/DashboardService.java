@@ -16,8 +16,8 @@ public class DashboardService {
 
     private final TransactionService transactionService;
 
-    public DashboardDto getDashboard(String userName, String period) {
-        TransactionsSummaryDto transactionsSummary = transactionService.getTransactionsSummary(userName, period);
+    public DashboardDto getDashboard(String userName, String timeDuration) {
+        TransactionsSummaryDto transactionsSummary = transactionService.getTransactionsSummary(userName, timeDuration);
         List<TransactionDto> transactions = transactionsSummary.getTransactions();
         List<TransactionDto> incomes = getTransactionsByType(transactions, Constants.INCOME);
         List<TransactionDto> expenses = getTransactionsByType(transactions, Constants.EXPENSE);
@@ -26,11 +26,11 @@ public class DashboardService {
                 .expenseAmount(transactionsSummary.getExpenseAmount())
                 .incomeAmount(transactionsSummary.getIncomeAmount())
                 .balance(transactionsSummary.getBalance())
-                .balancesChart(SummaryCalculator.getTransactionsHistory(transactions, period))
+                .balancesChart(SummaryCalculator.getTransactionsHistory(transactions, timeDuration))
                 .expenseCategoriesChart(SummaryCalculator.getGroupByCategories(expenses))
                 .incomeCategoriesChart(SummaryCalculator.getGroupByCategories(incomes))
-                .incomesChart(SummaryCalculator.getTransactionsHistory(incomes, period))
-                .expensesChart(SummaryCalculator.getTransactionsHistory(expenses, period))
+                .incomesChart(SummaryCalculator.getTransactionsHistory(incomes, timeDuration))
+                .expensesChart(SummaryCalculator.getTransactionsHistory(expenses, timeDuration))
                 .build();
     }
 

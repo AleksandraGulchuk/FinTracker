@@ -3,7 +3,7 @@
 
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar(module)">
-    <a class="navbar-brand" href="" th:href="@{/dashboard?period=This+month}">
+    <a class="navbar-brand" href="" th:href="@{/dashboard?timeDuration=This+month}">
       <img th:src="@{/img/icons/logo.png}" width="30" height="30" class="d-inline-block align-top" alt="">
       FinTracker</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
@@ -13,10 +13,10 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" th:classappend="${module == 'dashboard' ? 'active' : ''}">
-          <a class="nav-link" href="" th:href="@{/dashboard?period=This+month}">Dashboard</a>
+          <a class="nav-link" href="" th:href="@{/dashboard?timeDuration=This+month}">Dashboard</a>
         </li>
         <li class="nav-item" th:classappend="${module == 'transactions' ? 'active' : ''}">
-          <a class="nav-link" href="" th:href="@{/transactions?period=This+month}">Transactions</a>
+          <a class="nav-link" href="" th:href="@{/transactions?timeDuration=This+month}">Transactions</a>
         </li>
         <li class="nav-item" th:classappend="${module == 'incomes' ? 'active' : ''}">
           <a class="nav-link" href="" th:href="@{/incomes}">Incomes</a>

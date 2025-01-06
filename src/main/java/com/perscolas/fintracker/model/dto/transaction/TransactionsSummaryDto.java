@@ -1,6 +1,6 @@
 package com.perscolas.fintracker.model.dto.transaction;
 
-import com.perscolas.fintracker.model.Period;
+import com.perscolas.fintracker.model.TimeDuration;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,7 +15,6 @@ public class TransactionsSummaryDto {
     private BigDecimal incomeAmount;
     private BigDecimal balance;
     private List<TransactionDto> transactions;
-    //    private final Period[] periods = {Period.MONTH,Period.THREE_MONTHS, Period.SIX_MONTHS};
-    private final Period[] periods = Period.values();
-    private Period active;
+    private final TimeDuration[] timeDurations = TimeDuration.values();
+    private TimeDuration active;
 }
