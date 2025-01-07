@@ -4,10 +4,12 @@ import com.perscolas.fintracker.exception.EntityAlreadyExistsException;
 import com.perscolas.fintracker.exception.EntityNotFoundException;
 import com.perscolas.fintracker.mapper.UserMapper;
 import com.perscolas.fintracker.model.dto.user.UserSetupDto;
-import com.perscolas.fintracker.model.entity.Role;
+import com.perscolas.fintracker.model.entity.UserAccess;
 import com.perscolas.fintracker.model.entity.UserAccount;
 import com.perscolas.fintracker.repository.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,12 +23,14 @@ public class UserService {
     private final UserAccountRepository userRepository;
     private final RoleService roleService;
     private final UserMapper userMapper;
+    @Lazy
+    private final BCryptPasswordEncoder encoder;
 
-    public UUID create(UserSetupDto userSetupDto) {
+    public void create(UserSetupDto userSetupDto) {
         checkIfUserAccountExists(userSetupDto);
-        Role role = roleService.getUserRole();
-        UserAccount user = userMapper.createUserFromDto(userSetupDto, Set.of(role));
-        return userRepository.save(user).getId();
+        userSetupDto.setPassword(encoder.encode(userSetupDto.getPassword()));
+        UserAccount user = userMapper.createUserFromDto(userSetupDto, createUserAccess());
+        userRepository.save(user);
     }
 
     public UUID getUserIdByUserName(String email) {
@@ -41,6 +45,16 @@ public class UserService {
         if (userAccount.isPresent()) {
             throw new EntityAlreadyExistsException("User with email: " + userSetupDto.getEmail() + " already exists");
         }
+    }
+
+    private UserAccess createUserAccess() {
+        return UserAccess.builder()
+                .roles(Set.of(roleService.getUserRole()))
+                .isAccountNonExpired(true)
+                .isAccountNonLocked(true)
+                .isCredentialsNonExpired(true)
+                .isEnabled(true)
+                .build();
     }
 
 }

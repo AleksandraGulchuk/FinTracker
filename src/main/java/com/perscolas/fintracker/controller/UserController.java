@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.UUID;
-
 @Controller
 @CrossOrigin
 @Validated
@@ -42,9 +40,8 @@ public class UserController {
         if (result.hasErrors()) {
             return "create-account";
         }
-        UUID id = service.create(user);
-        model.addAttribute("userId", id);
-        return "redirect:/dashboard";
+        service.create(user);
+        return "redirect:/login";
     }
 
 }

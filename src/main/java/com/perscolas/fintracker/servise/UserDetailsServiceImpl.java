@@ -1,5 +1,6 @@
 package com.perscolas.fintracker.servise;
 
+import com.perscolas.fintracker.configuration.UserPrincipal;
 import com.perscolas.fintracker.exception.EntityNotFoundException;
 import com.perscolas.fintracker.model.entity.Role;
 import com.perscolas.fintracker.model.entity.UserAccount;
@@ -7,7 +8,6 @@ import com.perscolas.fintracker.repository.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserAccount user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new EntityNotFoundException("Invalid email or password"));
-        return new User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+        return new UserPrincipal(user);
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
