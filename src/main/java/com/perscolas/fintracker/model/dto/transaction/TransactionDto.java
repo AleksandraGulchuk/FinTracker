@@ -1,5 +1,8 @@
 package com.perscolas.fintracker.model.dto.transaction;
 
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,8 +22,11 @@ public class TransactionDto {
     private UUID userId;
     private String type;
     private String category;
+    @NotNull(message = "Category must not be empty")
     private UUID categoryId;
+    @NotNull(message = "Date must not be empty")
     private LocalDate date;
+    @DecimalMin(value = "0.01")
     private BigDecimal amount;
     private String description;
 

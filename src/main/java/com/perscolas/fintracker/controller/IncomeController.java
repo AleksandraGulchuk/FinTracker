@@ -3,6 +3,7 @@ package com.perscolas.fintracker.controller;
 import com.perscolas.fintracker.model.TimeDuration;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
 import com.perscolas.fintracker.servise.IncomeService;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class IncomeController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute TransactionDto transaction, Principal principal) {
+    public String create(@Valid @ModelAttribute TransactionDto transaction, Principal principal) {
         incomeService.createIncome(principal.getName(), transaction);
         return "redirect:/incomes";
     }
@@ -42,7 +43,7 @@ public class IncomeController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute TransactionDto transaction, Principal principal) {
+    public String update(@Valid @ModelAttribute TransactionDto transaction, Principal principal) {
         incomeService.updateIncome(principal.getName(), transaction);
         return "redirect:/incomes";
     }
