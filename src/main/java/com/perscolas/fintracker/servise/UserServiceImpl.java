@@ -7,6 +7,7 @@ import com.perscolas.fintracker.model.dto.user.UserSetupDto;
 import com.perscolas.fintracker.model.entity.UserAccess;
 import com.perscolas.fintracker.model.entity.UserAccount;
 import com.perscolas.fintracker.repository.UserAccountRepository;
+import com.perscolas.fintracker.servise.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,14 +19,15 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserAccountRepository userRepository;
-    private final RoleService roleService;
+    private final RoleServiceImpl roleService;
     private final UserMapper userMapper;
     @Lazy
     private final BCryptPasswordEncoder encoder;
 
+    @Override
     public void create(UserSetupDto userSetupDto) {
         checkIfUserAccountExists(userSetupDto);
         userSetupDto.setPassword(encoder.encode(userSetupDto.getPassword()));
@@ -33,6 +35,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Override
     public UUID getUserIdByUserName(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("User with id: " + email + " not found"))

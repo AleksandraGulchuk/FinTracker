@@ -11,7 +11,6 @@ function convertStringToMap(summary) {
     summary = summary.replaceAll(', ', '","');
 
     let map = new Map(Object.entries(JSON.parse(summary)));
-    console.log(map);
     return map;
 }
 

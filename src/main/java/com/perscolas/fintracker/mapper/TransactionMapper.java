@@ -22,12 +22,6 @@ public class TransactionMapper {
                 .build();
     }
 
-    public List<TransactionDto> expensesToDto(List<Expense> expenses) {
-        return expenses.stream()
-                .map(this::expenseToDto)
-                .toList();
-    }
-
     public TransactionDto incomeToDto(Income income) {
         return TransactionDto.builder()
                 .transactionId(income.getId())
@@ -38,12 +32,6 @@ public class TransactionMapper {
                 .amount(income.getAmount())
                 .description(income.getDescription())
                 .build();
-    }
-
-    public List<TransactionDto> incomesToDto(List<Income> incomes) {
-        return incomes.stream()
-                .map(this::incomeToDto)
-                .toList();
     }
 
     public Income dtoToIncome(TransactionDto dto) {

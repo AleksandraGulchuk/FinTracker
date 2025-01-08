@@ -1,7 +1,6 @@
 "use strict"
 
 const balancesChar = document.getElementById("balancesChart").value;
-console.log(balancesChar);
 
 const balancesCharMap = convertStringToMap(balancesChar);
 let balanceData = Array.from(balancesCharMap.values());

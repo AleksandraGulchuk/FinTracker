@@ -2,7 +2,7 @@ package com.perscolas.fintracker.controller;
 
 import com.perscolas.fintracker.model.TimeDuration;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
-import com.perscolas.fintracker.servise.IncomeService;
+import com.perscolas.fintracker.servise.interfaces.IncomeService;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;

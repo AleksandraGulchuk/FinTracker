@@ -2,7 +2,7 @@ package com.perscolas.fintracker.controller;
 
 import com.perscolas.fintracker.model.dto.user.UserLoginDto;
 import com.perscolas.fintracker.model.dto.user.UserSetupDto;
-import com.perscolas.fintracker.servise.UserService;
+import com.perscolas.fintracker.servise.interfaces.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

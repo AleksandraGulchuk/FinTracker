@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
 
-public class SummaryCalculator {
+public class TransactionSummaryCalculator {
 
     private static final List<String> WEEK_TIME_PERIODS = List.of(DayOfWeek.MONDAY.toString(),
             DayOfWeek.TUESDAY.toString(), DayOfWeek.WEDNESDAY.toString(), DayOfWeek.THURSDAY.toString(),
@@ -125,9 +125,9 @@ public class SummaryCalculator {
         return summaryMap;
     }
 
-    private static List<TransactionDto> filterTransactionsByType(List<TransactionDto> transactions, String income) {
+    public static List<TransactionDto> filterTransactionsByType(List<TransactionDto> transactions, String type) {
         return transactions.stream()
-                .filter(t -> t.getType().equals(income))
+                .filter(t -> t.getType().equals(type))
                 .toList();
     }
 

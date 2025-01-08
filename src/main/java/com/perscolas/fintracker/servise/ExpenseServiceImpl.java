@@ -8,7 +8,9 @@ import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
 import com.perscolas.fintracker.model.entity.Expense;
 import com.perscolas.fintracker.repository.ExpenseCategoryRepository;
 import com.perscolas.fintracker.repository.ExpenseRepository;
-import com.perscolas.fintracker.util.SummaryCalculator;
+import com.perscolas.fintracker.servise.interfaces.ExpenseService;
+import com.perscolas.fintracker.util.DateCalculator;
+import com.perscolas.fintracker.util.TransactionSummaryCalculator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,19 +24,20 @@ import java.util.UUID;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ExpenseService {
+public class ExpenseServiceImpl implements ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final ExpenseCategoryRepository expenseCategoryRepository;
     private final TransactionMapper transactionMapper;
     private final CategoryMapper categoryMapper;
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-
+    @Override
     public SummaryDto getSummary(String userName, String timeDuration) {
         UUID userId = userService.getUserIdByUserName(userName);
-        List<TransactionDto> transactions = getTransactions(userId);
-        Map<String, BigDecimal> summary = SummaryCalculator.calculateTransactionHistory(transactions, timeDuration);
+        LocalDate dayBeforeStartTime = DateCalculator.getStartDateByTimeDuration(timeDuration).minusDays(1);
+        List<TransactionDto> transactions = findAllExpensesByUserIdAndDateAfter(userId, dayBeforeStartTime);
+        Map<String, BigDecimal> summary = TransactionSummaryCalculator.calculateTransactionHistory(transactions, timeDuration);
         return SummaryDto.builder()
                 .transactions(transactions)
                 .categories(getCategories())
@@ -42,6 +45,7 @@ public class ExpenseService {
                 .build();
     }
 
+    @Override
     public void createExpense(String userName, TransactionDto dto) {
         UUID userId = userService.getUserIdByUserName(userName);
         dto.setUserId(userId);
@@ -49,10 +53,12 @@ public class ExpenseService {
         expenseRepository.save(expense);
     }
 
+    @Override
     public void deleteExpense(UUID incomeId) {
         expenseRepository.deleteById(incomeId);
     }
 
+    @Override
     public void updateExpense(String userName, TransactionDto transaction) {
         UUID userId = userService.getUserIdByUserName(userName);
         transaction.setUserId(userId);
@@ -60,8 +66,12 @@ public class ExpenseService {
         expenseRepository.save(expense);
     }
 
-    public List<Expense> findAllExpensesByUserIdAndDateAfter(UUID userId, LocalDate date) {
-        return expenseRepository.findAllByUserAccountIdAndDateAfterOrderByDateDesc(userId, date);
+    @Override
+    public List<TransactionDto> findAllExpensesByUserIdAndDateAfter(UUID userId, LocalDate date) {
+        return expenseRepository.findAllByUserAccountIdAndDateAfterOrderByDateDesc(userId, date)
+                .stream()
+                .map(transactionMapper::expenseToDto)
+                .toList();
     }
 
     private List<CategoryDto> getCategories() {
@@ -69,15 +79,6 @@ public class ExpenseService {
                 .findAll()
                 .stream()
                 .map(categoryMapper::expenseCategoryToDto)
-                .toList();
-    }
-
-    //TODO: MAKE DECISION ABOUT ALL TRANSACTIONS INSTEAD OF HALF YEAR
-    private List<TransactionDto> getTransactions(UUID id) {
-        return expenseRepository
-                .findAllByUserAccountIdOrderByDateDesc(id)
-                .stream()
-                .map(transactionMapper::expenseToDto)
                 .toList();
     }
 

@@ -1,7 +1,6 @@
 "use strict"
 
 const incomeCategories = document.getElementById("incomeCategoriesChartId").value;
-console.log(incomeCategories);
 
 const incomeCategoriesMap = convertStringToMap(incomeCategories);
 

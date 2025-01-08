@@ -8,7 +8,9 @@ import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
 import com.perscolas.fintracker.model.entity.Income;
 import com.perscolas.fintracker.repository.IncomeCategoryRepository;
 import com.perscolas.fintracker.repository.IncomeRepository;
-import com.perscolas.fintracker.util.SummaryCalculator;
+import com.perscolas.fintracker.servise.interfaces.IncomeService;
+import com.perscolas.fintracker.util.DateCalculator;
+import com.perscolas.fintracker.util.TransactionSummaryCalculator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,19 +24,20 @@ import java.util.UUID;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class IncomeService {
+public class IncomeServiceImpl implements IncomeService {
 
     private final IncomeRepository incomeRepository;
     private final IncomeCategoryRepository incomeCategoryRepository;
     private final TransactionMapper transactionMapper;
     private final CategoryMapper categoryMapper;
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-
+    @Override
     public SummaryDto getSummary(String userName, String timeDuration) {
         UUID userId = userService.getUserIdByUserName(userName);
-        List<TransactionDto> transactions = getTransactions(userId);
-        Map<String, BigDecimal> summary = SummaryCalculator.calculateTransactionHistory(transactions, timeDuration);
+        LocalDate dayBeforeStartTime = DateCalculator.getStartDateByTimeDuration(timeDuration).minusDays(1);
+        List<TransactionDto> transactions = findAllIncomesByUserIdAndDateAfter(userId, dayBeforeStartTime);
+        Map<String, BigDecimal> summary = TransactionSummaryCalculator.calculateTransactionHistory(transactions, timeDuration);
         return SummaryDto.builder()
                 .transactions(transactions)
                 .categories(getCategories())
@@ -42,6 +45,7 @@ public class IncomeService {
                 .build();
     }
 
+    @Override
     public void createIncome(String userName, TransactionDto transaction) {
         UUID userId = userService.getUserIdByUserName(userName);
         transaction.setUserId(userId);
@@ -49,10 +53,12 @@ public class IncomeService {
         incomeRepository.save(income);
     }
 
+    @Override
     public void deleteIncome(UUID incomeId) {
         incomeRepository.deleteById(incomeId);
     }
 
+    @Override
     public void updateIncome(String userName, TransactionDto transaction) {
         UUID userId = userService.getUserIdByUserName(userName);
         transaction.setUserId(userId);
@@ -60,8 +66,13 @@ public class IncomeService {
         incomeRepository.save(income);
     }
 
-    public List<Income> findAllIncomesByUserIdAndDateAfter(UUID userId, LocalDate date) {
-        return incomeRepository.findAllByUserAccountIdAndDateAfterOrderByDateDesc(userId, date);
+    @Override
+    public List<TransactionDto> findAllIncomesByUserIdAndDateAfter(UUID userId, LocalDate date) {
+        return incomeRepository
+                .findAllByUserAccountIdAndDateAfterOrderByDateDesc(userId, date)
+                .stream()
+                .map(transactionMapper::incomeToDto)
+                .toList();
     }
 
     private List<CategoryDto> getCategories() {
@@ -72,11 +83,4 @@ public class IncomeService {
                 .toList();
     }
 
-    private List<TransactionDto> getTransactions(UUID id) {
-        return incomeRepository
-                .findAllByUserAccountIdOrderByDateDesc(id)
-                .stream()
-                .map(transactionMapper::incomeToDto)
-                .toList();
-    }
 }

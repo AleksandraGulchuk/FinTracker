@@ -2,7 +2,7 @@ package com.perscolas.fintracker.controller;
 
 import com.perscolas.fintracker.model.TimeDuration;
 import com.perscolas.fintracker.model.dto.transaction.TransactionsSummaryDto;
-import com.perscolas.fintracker.servise.TransactionService;
+import com.perscolas.fintracker.servise.interfaces.TransactionService;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;

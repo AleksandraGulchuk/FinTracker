@@ -2,7 +2,7 @@ package com.perscolas.fintracker.controller;
 
 import com.perscolas.fintracker.model.TimeDuration;
 import com.perscolas.fintracker.model.dto.dashboard.DashboardDto;
-import com.perscolas.fintracker.servise.DashboardService;
+import com.perscolas.fintracker.servise.interfaces.DashboardService;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ public class DashboardController {
 
     @GetMapping()
     public String getTransactions(@PathParam("timeDuration") String timeDuration, Model model, Principal principal) {
-        DashboardDto dashboard = dashboardService.getDashboard(principal.getName(), timeDuration);
+        DashboardDto dashboard = dashboardService.generateDashboardSummary(principal.getName(), timeDuration);
         dashboard.setActive(TimeDuration.timeDurationOfStringValue(timeDuration));
         model.addAttribute("dashboard", dashboard);
         return "dashboard";

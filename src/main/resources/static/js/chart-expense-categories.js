@@ -1,7 +1,6 @@
 "use strict"
 
 const expenseCategories = document.getElementById("expenseCategoriesChartId").value;
-console.log(expenseCategories);
 
 const expenseCategoriesMap = convertStringToMap(expenseCategories);
 let expenseCategoriesValues = Array.from(expenseCategoriesMap.values())
