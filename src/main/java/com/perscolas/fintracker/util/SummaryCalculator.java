@@ -5,122 +5,147 @@ import com.perscolas.fintracker.model.TimeDuration;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SummaryCalculator {
 
-    public static Map<String, BigDecimal> getGroupByCategories(List<TransactionDto> transactions) {
-        Map<String, BigDecimal> map = new LinkedHashMap<>();
+    private static final List<String> WEEK_TIME_PERIODS = List.of(DayOfWeek.MONDAY.toString(),
+            DayOfWeek.TUESDAY.toString(), DayOfWeek.WEDNESDAY.toString(), DayOfWeek.THURSDAY.toString(),
+            DayOfWeek.FRIDAY.toString(), DayOfWeek.SATURDAY.toString(), DayOfWeek.SUNDAY.toString());
+    private static final List<String> MONTH_TIME_PERIODS = List.of(Constants.DAYS_1_7, Constants.DAYS_8_15, Constants.DAYS_16_23, Constants.DAYS_24_END);
+
+
+    public static Map<String, BigDecimal> groupTransactionsByCategory(List<TransactionDto> transactions) {
+        Map<String, BigDecimal> categoryTotals = new LinkedHashMap<>();
         for (TransactionDto transaction : transactions) {
             String category = transaction.getCategory();
-            if (map.containsKey(category)) {
-                map.put(category, map.get(category).add(transaction.getAmount()));
+            if (categoryTotals.containsKey(category)) {
+                categoryTotals.put(category, categoryTotals.get(category).add(transaction.getAmount()));
             } else {
-                map.put(category, transaction.getAmount());
+                categoryTotals.put(category, transaction.getAmount());
             }
         }
-        return map;
+        return categoryTotals;
     }
 
-    public static Map<String, BigDecimal> getTransactionsHistory(List<TransactionDto> transactions, String timeDuration) {
+    public static Map<String, BigDecimal> calculateTransactionHistory(List<TransactionDto> transactions, String timeDuration) {
         Map<String, BigDecimal> transactionsHistory;
         TimeDuration timeDurationEnum = TimeDuration.timeDurationOfStringValue(timeDuration);
         transactionsHistory = switch (timeDurationEnum) {
-            case WEEK -> getTransactionsSummaryByWeek(transactions, timeDuration);
-            case MONTH -> getTransactionsSummaryByOneMonth(transactions);
-            default -> getTransactionsSummaryByMonths(transactions, timeDuration);
+            case WEEK -> summarizeTransactionsByTimePeriod(transactions, WEEK_TIME_PERIODS);
+            case MONTH -> summarizeTransactionsByTimePeriod(transactions, MONTH_TIME_PERIODS);
+            default -> calculateMonthlyTransactionSummary(transactions, timeDuration);
         };
         return transactionsHistory;
     }
 
-    private static Map<String, BigDecimal> getTransactionsSummaryByOneMonth(List<TransactionDto> transactions) {
-        Map<String, BigDecimal> bindMap = getOneMonthMap();
-        for (TransactionDto transaction : transactions) {
-            int dayOfMonth = transaction.getDate().getDayOfMonth();
-            String unit = getWeekOfDay(dayOfMonth);
-            putTransaction(transaction, bindMap, unit);
-        }
-        return bindMap;
+    public static Map<String, BigDecimal> calculateBalanceHistory(List<TransactionDto> transactions, String timeDuration) {
+        Map<String, BigDecimal> balanceHistory;
+        TimeDuration timeDurationEnum = TimeDuration.timeDurationOfStringValue(timeDuration);
+        balanceHistory = switch (timeDurationEnum) {
+            case WEEK -> calculateBalanceByTimePeriod(transactions, WEEK_TIME_PERIODS);
+            case MONTH -> calculateBalanceByTimePeriod(transactions, MONTH_TIME_PERIODS);
+            default -> calculateMonthlyTransactionSummary(transactions, timeDuration);
+        };
+        return balanceHistory;
     }
 
-    private static Map<String, BigDecimal> getOneMonthMap() {
-        Map<String, BigDecimal> bindMap = new HashMap<>();
-        bindMap.put(Constants.WEEK_ONE, BigDecimal.ZERO);
-        bindMap.put(Constants.WEEK_TWO, BigDecimal.ZERO);
-        bindMap.put(Constants.WEEK_THREE, BigDecimal.ZERO);
-        bindMap.put(Constants.WEEK_FOUR, BigDecimal.ZERO);
-        return bindMap;
-    }
-
-    private static String getWeekOfDay(int dayOfMonth) {
-        if (dayOfMonth < 7) {
-            return Constants.WEEK_ONE;
-        }
-        if (dayOfMonth < 14) {
-            return Constants.WEEK_TWO;
-        }
-        if (dayOfMonth < 21) {
-            return Constants.WEEK_THREE;
-        }
-        return Constants.WEEK_FOUR;
-    }
-
-    private static Map<String, BigDecimal> getTransactionsSummaryByWeek(List<TransactionDto> transactions, String timeDuration) {
-        Map<String, BigDecimal> bindMap = new HashMap<>();
-        for (TransactionDto transaction : transactions) {
-            String dayOfWeek = transaction.getDate().getDayOfWeek().toString();
-            putTransaction(transaction, bindMap, dayOfWeek);
-        }
-        return fillEmptyDays(bindMap, timeDuration);
-    }
-
-    private static Map<String, BigDecimal> getTransactionsSummaryByMonths(List<TransactionDto> transactions, String timeDuration) {
-        Map<String, BigDecimal> bindMap = new HashMap<>();
+    private static Map<String, BigDecimal> calculateMonthlyTransactionSummary(List<TransactionDto> transactions, String timeDuration) {
+        Map<String, BigDecimal> transactionMap = initializeSummaryMap(generateTimePeriodKeys(timeDuration));
         for (TransactionDto transaction : transactions) {
             String month = transaction.getDate().getMonth().toString();
-            putTransaction(transaction, bindMap, month);
+            updateTransactionSummary(transaction, transactionMap, month);
         }
-        return fillEmptyMonths(bindMap, timeDuration);
+        return transactionMap;
     }
 
+    private static Map<String, BigDecimal> initializeSummaryMap(List<String> timePeriods) {
+        Map<String, BigDecimal> summaryMap = new LinkedHashMap<>();
+        for (String key : timePeriods) {
+            summaryMap.put(key, BigDecimal.ZERO);
+        }
+        return summaryMap;
+    }
 
-    private static Map<String, BigDecimal> fillEmptyMonths(Map<String, BigDecimal> transactionsSummary, String timeDuration) {
-        Map<String, BigDecimal> map = new LinkedHashMap<>();
+    private static List<String> generateTimePeriodKeys(String timeDuration){
+        List<String> timePeriods = new ArrayList<>();
         int timeDurationLength = TimeDuration.timeDurationOfStringValue(timeDuration).intValue;
         Month startTimeDurationMonth = LocalDate.now().getMonth().minus(timeDurationLength);
         for (int i = 1; i < timeDurationLength + 1; i++) {
             String month = startTimeDurationMonth.plus(i).toString();
-            map.put(month, transactionsSummary.getOrDefault(month, BigDecimal.ZERO));
+            timePeriods.add(month);
         }
-        return map;
+        return timePeriods;
     }
 
-    private static Map<String, BigDecimal> fillEmptyDays(Map<String, BigDecimal> transactionsSummary, String timeDuration) {
-        Map<String, BigDecimal> map = new LinkedHashMap<>();
-        LocalDate startDate = DateCalculator.getStartDateByTimeDuration(timeDuration);
-        for (int i = 0; i < 8; i++) {
-            String day = startDate.plusDays(i).getDayOfWeek().toString();
-            map.put(day, transactionsSummary.getOrDefault(day, BigDecimal.ZERO));
+    private static String determineMonthPeriod(int dayOfMonth) {
+        if (dayOfMonth < 8) {
+            return Constants.DAYS_1_7;
         }
-        return map;
+        if (dayOfMonth < 16) {
+            return Constants.DAYS_8_15;
+        }
+        if (dayOfMonth < 24) {
+            return Constants.DAYS_16_23;
+        }
+        return Constants.DAYS_24_END;
     }
 
-    private static void putTransaction(TransactionDto transaction, Map<String, BigDecimal> bindMap, String unit) {
+    private static Map<String, BigDecimal> summarizeTransactionsByTimePeriod(List<TransactionDto> transactions, List<String> timePeriods) {
+        Map<String, BigDecimal> summaryMap = initializeSummaryMap(timePeriods);
+        for (TransactionDto transaction : transactions) {
+            String dayOfWeek = determineTimeUnit(timePeriods, transaction);
+            updateTransactionSummary(transaction, summaryMap, dayOfWeek);
+        }
+        return summaryMap;
+    }
+
+    private static void updateTransactionSummary(TransactionDto transaction, Map<String, BigDecimal> summaryMap, String timeUnit) {
         String type = transaction.getType();
-        if (bindMap.containsKey(unit)) {
-            BigDecimal total = type.equals(Constants.INCOME)
-                    ? bindMap.get(unit).add(transaction.getAmount())
-                    : bindMap.get(unit).subtract(transaction.getAmount());
-            bindMap.put(unit, total);
+        BigDecimal total = type.equals(Constants.INCOME)
+                ? summaryMap.get(timeUnit).add(transaction.getAmount())
+                : summaryMap.get(timeUnit).subtract(transaction.getAmount());
+        summaryMap.put(timeUnit, total);
+    }
+
+    private static Map<String, BigDecimal> calculateBalanceByTimePeriod(List<TransactionDto> transactions, List<String> timePeriods) {
+        BigDecimal balance = BigDecimal.ZERO;
+        List<TransactionDto> incomes = filterTransactionsByType(transactions, Constants.INCOME);
+        List<TransactionDto> expenses = filterTransactionsByType(transactions, Constants.EXPENSE);
+        Map<String, BigDecimal> incomesMap = calculateTransactionsMapByType(incomes, timePeriods);
+        Map<String, BigDecimal> expensesMap = calculateTransactionsMapByType(expenses, timePeriods);
+        Map<String, BigDecimal> summaryMap = new LinkedHashMap<>();
+        for (String day : timePeriods) {
+            balance = balance.add(incomesMap.get(day)).subtract(expensesMap.get(day));
+            summaryMap.put(day, balance);
+        }
+        return summaryMap;
+    }
+
+    private static List<TransactionDto> filterTransactionsByType(List<TransactionDto> transactions, String income) {
+        return transactions.stream()
+                .filter(t -> t.getType().equals(income))
+                .toList();
+    }
+
+    private static Map<String, BigDecimal> calculateTransactionsMapByType(List<TransactionDto> transactions, List<String> timePeriods) {
+        Map<String, BigDecimal> transactionMap = initializeSummaryMap(timePeriods);
+        for (TransactionDto transaction : transactions) {
+            String timeUnit = determineTimeUnit(timePeriods, transaction);
+            BigDecimal total = transactionMap.get(timeUnit).add(transaction.getAmount());
+            transactionMap.put(timeUnit, total);
+        }
+        return transactionMap;
+    }
+
+    private static String determineTimeUnit(List<String> timePeriods, TransactionDto transaction) {
+        if(timePeriods.size() == 7) {
+            return transaction.getDate().getDayOfWeek().toString();
         } else {
-            bindMap.put(unit, type.equals(Constants.INCOME)
-                    ? transaction.getAmount()
-                    : BigDecimal.ZERO.subtract(transaction.getAmount()));
+            return determineMonthPeriod(transaction.getDate().getDayOfMonth());
         }
     }
 }

@@ -4,9 +4,10 @@ public class Constants {
 
     public static final String EXPENSE = "expense";
     public static final String INCOME = "income";
-    public static final String WEEK_ONE = "Week 1";
-    public static final String WEEK_TWO = "Week 2";
-    public static final String WEEK_THREE = "Week 3";
-    public static final String WEEK_FOUR = "Week 4";
+
+    public static final String DAYS_1_7 = "Days 1-7";
+    public static final String DAYS_8_15 = "Days 8-15";
+    public static final String DAYS_16_23 = "Days 16-23";
+    public static final String DAYS_24_END = "Days 24-end";
 
 }

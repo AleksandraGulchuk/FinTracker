@@ -34,7 +34,7 @@ public class ExpenseService {
     public SummaryDto getSummary(String userName, String timeDuration) {
         UUID userId = userService.getUserIdByUserName(userName);
         List<TransactionDto> transactions = getTransactions(userId);
-        Map<String, BigDecimal> summary = SummaryCalculator.getTransactionsHistory(transactions, timeDuration);
+        Map<String, BigDecimal> summary = SummaryCalculator.calculateTransactionHistory(transactions, timeDuration);
         return SummaryDto.builder()
                 .transactions(transactions)
                 .categories(getCategories())
