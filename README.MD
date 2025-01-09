@@ -4,22 +4,26 @@
 
 ## Features
 
-- **Account Management**: Create and manage accounts.
+- **Account Management**: Create accounts.
 - **Income/Expense Records**: Add, edit, and delete income/expense records.
 - **Data Display**: View financial records in a clear, organized format.
-- **Filtering & Sorting**: Filter records by category and sort by amount.
-- **Reports**: Generate summary reports for the month, week, and 6 months.
+- **Filtering**: Filter transaction records by different time periods.
+- **Reports**: Generate summary reports for the month, week, 3 months, 6 months, year.
 
 ## Technologies
 
-- **Frontend**: HTML, CSS, JavaScript
-- **Backend**: None (Static data is currently rendered as mock data; backend will be implemented later)
-- **Data Storage**: None (To be implemented)
+- **Backend**: Java, Spring Boot, Hibernate
+- **Data Storage**: MySQL (Relational Database), H2 (For Testing)
+- **Security**: Spring Security for authentication and role management
+- **Frontend**: HTML, CSS, JavaScript, Thymeleaf
+- **Testing**: JUnit5, Mockito
 
 ## Installation
 
 1. Download or clone the repository.
-2. Run 
-3. Open `http://localhost:8080/` in a web browser. 
-4. Use the navbar or sidebar to navigate through the pages. 
-5. Press the "Logout" button to be redirected to the login page.
+2. Change datasource config, then run FinTrackerApplication.
+3. Run init_data_script.sql file to init user role and default categories for transactions.
+4. Open `http://localhost:8080/` in a web browser. 
+5. Create account or login with existed one. 
+6. Use the navbar or sidebar to navigate through the pages. 
+7. Press the "Logout" button to be redirected to the login page.
