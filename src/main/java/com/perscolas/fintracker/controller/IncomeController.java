@@ -6,6 +6,7 @@ import com.perscolas.fintracker.servise.interfaces.IncomeService;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +25,7 @@ import java.util.UUID;
 @RequestMapping("/incomes")
 @CrossOrigin
 @Validated
+@Slf4j
 @RequiredArgsConstructor
 public class IncomeController {
 
@@ -38,19 +40,25 @@ public class IncomeController {
 
     @PostMapping("/create")
     public String create(@Valid @ModelAttribute TransactionDto transaction, Principal principal) {
+        log.info("Creation request received for transaction {}", transaction);
         incomeService.createIncome(principal.getName(), transaction);
+        log.info("Transaction {} created", transaction);
         return "redirect:/incomes";
     }
 
     @PostMapping("/delete")
     public String delete(@PathParam("transactionId") UUID transactionId) {
+        log.info("Deletion request received for transaction {}", transactionId);
         incomeService.deleteIncome(transactionId);
+        log.info("Transaction {} deleted", transactionId);
         return "redirect:/incomes";
     }
 
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute TransactionDto transaction, Principal principal) {
+        log.info("Update request received for transaction {}", transaction);
         incomeService.updateIncome(principal.getName(), transaction);
+        log.info("Transaction {} updated", transaction);
         return "redirect:/incomes";
     }
 

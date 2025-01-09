@@ -9,6 +9,7 @@ import com.perscolas.fintracker.model.entity.UserAccount;
 import com.perscolas.fintracker.repository.UserAccountRepository;
 import com.perscolas.fintracker.servise.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.UUID;
  * are not created and sets default account settings.
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -39,6 +41,7 @@ public class UserServiceImpl implements UserService {
         userSetupDto.setPassword(encoder.encode(userSetupDto.getPassword()));
         UserAccount user = userMapper.createUserFromDto(userSetupDto, createUserAccess());
         userRepository.save(user);
+        log.info("User created successfully with email: {}", userSetupDto.getEmail());
     }
 
     @Override
@@ -52,6 +55,7 @@ public class UserServiceImpl implements UserService {
         Optional<UserAccount> userAccount = userRepository
                 .findByEmail(userSetupDto.getEmail());
         if (userAccount.isPresent()) {
+            log.warn("Failed to create user. User with email: {} already exists", userSetupDto.getEmail());
             throw new EntityAlreadyExistsException("User with email: " + userSetupDto.getEmail() + " already exists");
         }
     }

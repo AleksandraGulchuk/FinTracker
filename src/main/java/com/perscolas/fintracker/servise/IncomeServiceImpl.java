@@ -54,29 +54,32 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public void createIncome(String userName, TransactionDto transaction) {
+    public void createIncome(String userName, TransactionDto dto) {
         UUID userId = userService.getUserIdByUserName(userName);
-        transaction.setUserId(userId);
-        Income income = transactionMapper.dtoToIncome(transaction);
+        dto.setUserId(userId);
+        Income income = transactionMapper.dtoToIncome(dto);
         incomeRepository.save(income);
+        log.info("Income created for user: {} with amount: {}", userName, dto.getAmount());
     }
 
     @Override
     public void deleteIncome(UUID incomeId) {
         incomeRepository.deleteById(incomeId);
+        log.info("Income deleted: {}", incomeId);
     }
 
     @Override
-    public void updateIncome(String userName, TransactionDto transaction) {
-        Income income = transactionMapper.dtoToIncome(transaction);
+    public void updateIncome(String userName, TransactionDto dto) {
+        Income income = transactionMapper.dtoToIncome(dto);
         incomeRepository.save(income);
         UUID userId = userService.getUserIdByUserName(userName);
-        transaction.setUserId(userId);
-        Income existingIncome = incomeRepository.findById(transaction.getTransactionId())
+        dto.setUserId(userId);
+        Income existingIncome = incomeRepository.findById(dto.getTransactionId())
                 .orElseThrow(() -> new EntityNotFoundException("Income not found"));
-        Income updatedIncome = transactionMapper.dtoToIncome(transaction);
+        Income updatedIncome = transactionMapper.dtoToIncome(dto);
         updatedIncome.setId(existingIncome.getId());
         incomeRepository.save(updatedIncome);
+        log.info("Income updated for user: {} with amount: {}", userName, dto.getAmount());
     }
 
     @Override

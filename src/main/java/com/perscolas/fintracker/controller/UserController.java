@@ -41,11 +41,13 @@ public class UserController {
     }
 
     @PostMapping("/create-account")
-    public String createAccount(@Valid UserSetupDto user, BindingResult result, Model model) {
+    public String createAccount(@Valid UserSetupDto user, BindingResult result) {
+        log.info("User creation request received for email: {}", user.getEmail());
         if (result.hasErrors()) {
             return "create-account";
         }
         service.create(user);
+        log.info("User created successfully: {}", user.getEmail());
         return "redirect:/login";
     }
 

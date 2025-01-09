@@ -59,22 +59,25 @@ public class ExpenseServiceImpl implements ExpenseService {
         dto.setUserId(userId);
         Expense expense = transactionMapper.dtoToExpense(dto);
         expenseRepository.save(expense);
+        log.info("Expense created for user: {} with amount: {}", userName, dto.getAmount());
     }
 
     @Override
-    public void deleteExpense(UUID incomeId) {
-        expenseRepository.deleteById(incomeId);
+    public void deleteExpense(UUID expenseId) {
+        expenseRepository.deleteById(expenseId);
+        log.info("Expense deleted: {}", expenseId);
     }
 
     @Override
-    public void updateExpense(String userName, TransactionDto transaction) {
+    public void updateExpense(String userName, TransactionDto dto) {
         UUID userId = userService.getUserIdByUserName(userName);
-        transaction.setUserId(userId);
-        Expense existingExpense = expenseRepository.findById(transaction.getTransactionId())
+        dto.setUserId(userId);
+        Expense existingExpense = expenseRepository.findById(dto.getTransactionId())
                 .orElseThrow(() -> new EntityNotFoundException("Expense not found"));
-        Expense updatedExpense = transactionMapper.dtoToExpense(transaction);
+        Expense updatedExpense = transactionMapper.dtoToExpense(dto);
         updatedExpense.setId(existingExpense.getId());
         expenseRepository.save(updatedExpense);
+        log.info("Expense updated for user: {} with amount: {}", userName, dto.getAmount());
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.perscolas.fintracker.model.dto.transaction.TransactionsSummaryDto;
 import com.perscolas.fintracker.servise.interfaces.TransactionService;
 import com.perscolas.fintracker.util.DateCalculator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,6 +22,7 @@ import java.util.stream.Stream;
  * - Provides a sorted list of transactions (expenses and incomes) for the user.
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
@@ -40,7 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
         BigDecimal expenseAmount = getTransactionAmount(expenses);
         BigDecimal incomeAmount = getTransactionAmount(incomes);
         BigDecimal balance = incomeAmount.subtract(expenseAmount);
-
+        log.info("Generated transaction summary for user: {} for duration: {}", userName, timeDuration);
         return TransactionsSummaryDto.builder()
                 .expenseAmount(expenseAmount)
                 .incomeAmount(incomeAmount)

@@ -6,6 +6,7 @@ import com.perscolas.fintracker.model.entity.Role;
 import com.perscolas.fintracker.model.entity.UserAccount;
 import com.perscolas.fintracker.repository.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  * and returns a UserPrincipal object containing the user's information and roles.
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -32,6 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserAccount user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new EntityNotFoundException("Invalid email or password"));
+        log.info("User found with username: {}", username);
         return new UserPrincipal(user);
     }
 

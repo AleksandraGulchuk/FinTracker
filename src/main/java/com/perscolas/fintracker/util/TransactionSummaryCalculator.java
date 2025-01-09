@@ -3,18 +3,23 @@ package com.perscolas.fintracker.util;
 
 import com.perscolas.fintracker.model.TimeDuration;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A utility class for calculating various transaction summaries, balances, and categorizing transactions based on time durations such as weeks or months.
  * It provides methods to group transactions by category, calculate transaction history, and balance history,
  * along with generating summaries for different time periods like weekly and monthly.
  */
+@Slf4j
 public class TransactionSummaryCalculator {
 
     private static final List<String> WEEK_TIME_PERIODS = List.of(DayOfWeek.MONDAY.toString(),
@@ -33,6 +38,7 @@ public class TransactionSummaryCalculator {
                 categoryTotals.put(category, transaction.getAmount());
             }
         }
+        log.debug("Grouped transactions by category: {}", categoryTotals);
         return categoryTotals;
     }
 
@@ -44,6 +50,7 @@ public class TransactionSummaryCalculator {
             case MONTH -> summarizeTransactionsByTimePeriod(transactions, MONTH_TIME_PERIODS);
             default -> calculateMonthlyTransactionSummary(transactions, timeDuration);
         };
+        log.debug("Calculated transaction history: {}", transactionsHistory);
         return transactionsHistory;
     }
 
@@ -55,6 +62,7 @@ public class TransactionSummaryCalculator {
             case MONTH -> calculateBalanceByTimePeriod(transactions, MONTH_TIME_PERIODS);
             default -> calculateMonthlyTransactionSummary(transactions, timeDuration);
         };
+        log.debug("Calculated balance history: {}", balanceHistory);
         return balanceHistory;
     }
 
@@ -75,7 +83,7 @@ public class TransactionSummaryCalculator {
         return summaryMap;
     }
 
-    private static List<String> generateTimePeriodKeys(String timeDuration){
+    private static List<String> generateTimePeriodKeys(String timeDuration) {
         List<String> timePeriods = new ArrayList<>();
         int timeDurationLength = TimeDuration.timeDurationOfStringValue(timeDuration).intValue;
         Month startTimeDurationMonth = LocalDate.now().getMonth().minus(timeDurationLength);
@@ -147,7 +155,7 @@ public class TransactionSummaryCalculator {
     }
 
     private static String determineTimeUnit(List<String> timePeriods, TransactionDto transaction) {
-        if(timePeriods.size() == 7) {
+        if (timePeriods.size() == 7) {
             return transaction.getDate().getDayOfWeek().toString();
         } else {
             return determineMonthPeriod(transaction.getDate().getDayOfMonth());

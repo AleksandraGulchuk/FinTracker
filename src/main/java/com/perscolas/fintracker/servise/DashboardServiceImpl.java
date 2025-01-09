@@ -7,6 +7,7 @@ import com.perscolas.fintracker.servise.interfaces.DashboardService;
 import com.perscolas.fintracker.util.Constants;
 import com.perscolas.fintracker.util.TransactionSummaryCalculator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
  * - Uses a TransactionSummaryCalculator utility class to calculate charts and history based on the provided time duration.
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class DashboardServiceImpl implements DashboardService {
 
@@ -29,7 +31,7 @@ public class DashboardServiceImpl implements DashboardService {
         List<TransactionDto> transactions = transactionsSummary.getTransactions();
         List<TransactionDto> incomes = TransactionSummaryCalculator.filterTransactionsByType(transactions, Constants.INCOME);
         List<TransactionDto> expenses = TransactionSummaryCalculator.filterTransactionsByType(transactions, Constants.EXPENSE);
-
+        log.info("Dashboard summary generated for user: {} for duration: {}", userName, timeDuration);
         return DashboardDto.builder()
                 .expenseAmount(transactionsSummary.getExpenseAmount())
                 .incomeAmount(transactionsSummary.getIncomeAmount())

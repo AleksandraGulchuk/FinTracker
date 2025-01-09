@@ -1,6 +1,7 @@
 package com.perscolas.fintracker.util;
 
 import com.perscolas.fintracker.model.TimeDuration;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 
@@ -8,6 +9,7 @@ import java.time.LocalDate;
  * A utility class for calculating date-related operations based on different time durations.
  * This class provides methods to determine the start date of various time periods such as the current week, month, or custom durations.
  */
+@Slf4j
 public class DateCalculator {
 
     public static LocalDate getStartDateByTimeDuration(String timeDuration) {
@@ -17,6 +19,7 @@ public class DateCalculator {
             case MONTH -> getStartDateOfThisMonth();
             default -> getStartDateOfMonths(enumTimeDuration);
         };
+        log.debug("StartDate: {} for timeDuration: {}", startDate, timeDuration);
         return startDate;
     }
 

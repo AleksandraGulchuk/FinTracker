@@ -3,6 +3,7 @@ package com.perscolas.fintracker.configuration;
 
 import com.perscolas.fintracker.exception.EntityAlreadyExistsException;
 import com.perscolas.fintracker.exception.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,10 +27,12 @@ import java.util.stream.Collectors;
  * - Handles general RuntimeExceptions with 500 Internal Server Error status.
  */
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({EntityNotFoundException.class})
     public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException exception) {
+        log.error("Entity not found: {}", exception.getMessage());
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(exception.getMessage());
@@ -37,6 +40,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({EntityAlreadyExistsException.class})
     public ResponseEntity<Object> handleEntityAlreadyExistsException(EntityAlreadyExistsException exception) {
+        log.error("Entity already exists: {}", exception.getMessage());
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(exception.getMessage());
@@ -44,6 +48,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
+        log.error("MethodArgumentTypeMismatchException: {}", exception.getMessage());
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(exception.getMessage());
@@ -53,6 +58,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, List<String>>> handleValidationErrors(MethodArgumentNotValidException ex) {
         List<String> errors = ex.getBindingResult().getFieldErrors()
                 .stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+        log.error("Validation errors: {}", errors);
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
@@ -64,6 +70,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<Object> handleRuntimeException(RuntimeException exception) {
+        log.error("RuntimeException: {}", exception.getMessage());
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(exception.getMessage());
