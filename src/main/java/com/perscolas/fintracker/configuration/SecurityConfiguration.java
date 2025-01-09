@@ -1,13 +1,17 @@
 package com.perscolas.fintracker.configuration;
 
-import com.perscolas.fintracker.servise.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
@@ -22,20 +26,19 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
+@EnableWebSecurity
 public class SecurityConfiguration {
 
-    private static final String LOGIN_URL = "/login";
-    private static final String[] PERMIT_ALL_URL = {LOGIN_URL, "/", "/create-account",
+    private static final String[] PERMIT_ALL_URL = {"/login", "/", "/create-account",
             "/resources/**", "/css/**", "/img/**", "/js/**"};
 
-    private final UserDetailsServiceImpl userDetailsService;
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userDetailsService);
-        auth.setPasswordEncoder(passwordEncoder());
-        return auth;
+    public AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(passwordEncoder);
+        provider.setUserDetailsService(userDetailsService);
+        return new ProviderManager(provider);
     }
 
     @Bean
@@ -51,10 +54,9 @@ public class SecurityConfiguration {
                         .requestMatchers("/**").hasRole("USER")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
-                        .loginPage(LOGIN_URL)
-                        .loginProcessingUrl(LOGIN_URL)
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
                         .successForwardUrl("/dashboard")
-                        .failureForwardUrl(LOGIN_URL)
                         .permitAll())
                 .logout(logout -> logout
                         .invalidateHttpSession(true)
@@ -63,7 +65,6 @@ public class SecurityConfiguration {
                         .logoutSuccessUrl("/login?logout")
                         .deleteCookies("JSESSIONID")
                         .permitAll());
-
         return http.build();
     }
 
