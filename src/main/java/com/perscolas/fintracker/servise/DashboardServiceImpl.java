@@ -11,6 +11,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implementation of the DashboardService interface.
+ * - Generates a detailed dashboard summary for the user, including income, expense, balance, and transaction history data.
+ * - Filters and processes transactions based on type (income or expense) and groups them by category.
+ * - Uses a TransactionSummaryCalculator utility class to calculate charts and history based on the provided time duration.
+ */
 @Service
 @RequiredArgsConstructor
 public class DashboardServiceImpl implements DashboardService {

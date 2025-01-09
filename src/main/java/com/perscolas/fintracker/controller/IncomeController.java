@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.UUID;
 
+/**
+ * Controller for handling income-related requests.
+ * - Retrieves and displays a summary of incomes for the current user based on a default time duration ("Last 6 months").
+ * - Handles the creation, deletion, and updating of incomes via POST requests.
+ * - Validates and processes transactions for creating and updating incomes.
+ */
 @Controller
 @RequestMapping("/incomes")
 @CrossOrigin

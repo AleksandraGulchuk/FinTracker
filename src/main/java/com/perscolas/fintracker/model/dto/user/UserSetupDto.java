@@ -8,6 +8,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Data Transfer Object (DTO) representing the user setup information, including name, email, and password
+ * with validation constraints for name format, email, and password strength.
+ */
 @Data
 @Builder
 @NoArgsConstructor

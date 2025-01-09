@@ -2,7 +2,7 @@ package com.perscolas.fintracker.servise;
 
 import com.perscolas.fintracker.exception.EntityAlreadyExistsException;
 import com.perscolas.fintracker.exception.EntityNotFoundException;
-import com.perscolas.fintracker.mapper.UserMapper;
+import com.perscolas.fintracker.model.mapper.UserMapper;
 import com.perscolas.fintracker.model.dto.user.UserSetupDto;
 import com.perscolas.fintracker.model.entity.UserAccess;
 import com.perscolas.fintracker.model.entity.UserAccount;
@@ -17,6 +17,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Implementation of the UserService interface for managing user accounts.
+ * Handles user creation, password encryption, role assignment,
+ * and retrieval of user ID by email. Ensures that duplicate users
+ * are not created and sets default account settings.
+ */
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {

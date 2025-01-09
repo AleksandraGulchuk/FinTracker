@@ -14,6 +14,12 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+/**
+ * Implementation of the TransactionService interface that manages transactions.
+ * - Retrieves and combines expenses and incomes for a user within a specified time duration.
+ * - Calculates the total expenses, incomes, and balance for the user.
+ * - Provides a sorted list of transactions (expenses and incomes) for the user.
+ */
 @Service
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {

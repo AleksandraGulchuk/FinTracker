@@ -12,6 +12,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+/**
+ * Data Transfer Object (DTO) representing a transaction, including details such as transaction ID, user ID,
+ * type, category, amount, date, and description, with validation constraints.
+ */
 @Data
 @Builder
 @NoArgsConstructor

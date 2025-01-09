@@ -2,7 +2,7 @@ package com.perscolas.fintracker.servise;
 
 import com.perscolas.fintracker.exception.EntityAlreadyExistsException;
 import com.perscolas.fintracker.exception.EntityNotFoundException;
-import com.perscolas.fintracker.mapper.UserMapper;
+import com.perscolas.fintracker.model.mapper.UserMapper;
 import com.perscolas.fintracker.model.dto.user.UserSetupDto;
 import com.perscolas.fintracker.model.entity.Role;
 import com.perscolas.fintracker.model.entity.UserAccess;

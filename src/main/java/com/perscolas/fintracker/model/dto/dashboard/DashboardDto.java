@@ -7,6 +7,10 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.util.Map;
 
+/**
+ * Data Transfer Object (DTO) representing dashboard data, including expense, income, balance information,
+ * and charts for balances, expenses, and income categories, along with time duration selections.
+ */
 @Data
 @Builder
 public class DashboardDto {

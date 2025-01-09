@@ -7,6 +7,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+/**
+ * The Income class represents a financial income record.
+ * It contains details such as the income date, amount, description, associated user account, and income category.
+ * This class is a JPA entity, meaning it is mapped to a database table and can be persisted in a relational database.
+ * */
 @Entity
 @Builder
 @Getter

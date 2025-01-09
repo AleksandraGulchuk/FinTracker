@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * Controller for handling user-related actions, such as login and account creation.
+ * - Displays the login page and the create account page.
+ * - Handles user registration with validation of user input, creating a new user if valid.
+ */
 @Controller
 @CrossOrigin
 @Validated

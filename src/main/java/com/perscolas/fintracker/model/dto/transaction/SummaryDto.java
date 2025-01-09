@@ -8,6 +8,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data Transfer Object (DTO) representing a summary, including a list of categories, transactions,
+ * and a chart of transactions.
+ */
 @Data
 @Builder
 public class SummaryDto {

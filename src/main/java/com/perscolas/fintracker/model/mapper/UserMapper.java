@@ -1,4 +1,4 @@
-package com.perscolas.fintracker.mapper;
+package com.perscolas.fintracker.model.mapper;
 
 import com.perscolas.fintracker.model.dto.user.UserSetupDto;
 import com.perscolas.fintracker.model.entity.UserAccess;
@@ -6,6 +6,9 @@ import com.perscolas.fintracker.model.entity.UserAccount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+/**
+ * Mapper component for creating a UserAccount entity from a UserSetupDto and UserAccess.
+ */
 @Component
 @RequiredArgsConstructor
 public class UserMapper {

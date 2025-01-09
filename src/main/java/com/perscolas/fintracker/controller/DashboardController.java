@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 
+/**
+ * Controller for handling dashboard-related requests.
+ * - Handles redirection to the dashboard with a default time duration ("This month").
+ * - Retrieves dashboard data based on the selected time duration and adds it to the model for rendering.
+ */
 @Controller
 @RequestMapping("/dashboard")
 @CrossOrigin

@@ -17,6 +17,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Global exception handler that catches various types of exceptions and returns appropriate HTTP responses.
+ * - Handles EntityNotFoundException with 401 Unauthorized status.
+ * - Handles EntityAlreadyExistsException with 400 Bad Request status.
+ * - Handles MethodArgumentTypeMismatchException with 400 Bad Request status.
+ * - Handles validation errors (MethodArgumentNotValidException) with 400 Bad Request and error details.
+ * - Handles general RuntimeExceptions with 500 Internal Server Error status.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -60,4 +68,5 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(exception.getMessage());
     }
+
 }

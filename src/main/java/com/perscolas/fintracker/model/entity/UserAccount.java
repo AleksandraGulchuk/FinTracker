@@ -5,6 +5,10 @@ import lombok.*;
 
 import java.util.UUID;
 
+/**
+ * Represents a user account with personal details, login credentials, and access control settings.
+ * This class is a JPA entity, meaning it is mapped to a database table and can be persisted in a relational database.
+ */
 @Entity
 @Builder
 @Getter

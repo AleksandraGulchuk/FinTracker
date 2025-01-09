@@ -1,8 +1,8 @@
 package com.perscolas.fintracker.servise;
 
 import com.perscolas.fintracker.exception.EntityNotFoundException;
-import com.perscolas.fintracker.mapper.CategoryMapper;
-import com.perscolas.fintracker.mapper.TransactionMapper;
+import com.perscolas.fintracker.model.mapper.CategoryMapper;
+import com.perscolas.fintracker.model.mapper.TransactionMapper;
 import com.perscolas.fintracker.model.dto.category.CategoryDto;
 import com.perscolas.fintracker.model.dto.transaction.SummaryDto;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
@@ -22,6 +22,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Implementation of the IncomeService interface.
+ * - Provides methods to manage incomes, including getting summaries, creating, deleting, and updating incomes.
+ * - Retrieves incomes for a user based on specific time durations and calculates transaction history.
+ * - Utilizes repositories to fetch income data, and mappers to convert between entities and DTOs.
+ * - Includes helper methods to get categories and process transaction data.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.UUID;
 
+/**
+ * Controller for handling expense-related requests.
+ * - Retrieves and displays a summary of expenses for the current user based on a default time duration ("Last 6 months").
+ * - Handles the creation, deletion, and updating of expenses via POST requests.
+ * - Validates and processes transactions for creating and updating expenses.
+ */
 @Controller
 @RequestMapping("/expenses")
 @CrossOrigin

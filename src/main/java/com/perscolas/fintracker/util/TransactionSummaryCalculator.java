@@ -10,6 +10,11 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
 
+/**
+ * A utility class for calculating various transaction summaries, balances, and categorizing transactions based on time durations such as weeks or months.
+ * It provides methods to group transactions by category, calculate transaction history, and balance history,
+ * along with generating summaries for different time periods like weekly and monthly.
+ */
 public class TransactionSummaryCalculator {
 
     private static final List<String> WEEK_TIME_PERIODS = List.of(DayOfWeek.MONDAY.toString(),

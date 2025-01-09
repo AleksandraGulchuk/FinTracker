@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.UUID;
 
+/**
+ * Data Transfer Object (DTO) representing a category.
+ */
 @Data
 @Builder
 public class CategoryDto {

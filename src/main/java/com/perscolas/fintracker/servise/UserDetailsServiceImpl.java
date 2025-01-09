@@ -16,6 +16,12 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/**
+ * Service implementation that loads user details based on the username (email).
+ * This service is used for authentication and authorization.
+ * It retrieves the user from the repository, validates the email,
+ * and returns a UserPrincipal object containing the user's information and roles.
+ */
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {

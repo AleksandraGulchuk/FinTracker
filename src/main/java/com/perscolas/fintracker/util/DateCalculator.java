@@ -4,7 +4,10 @@ import com.perscolas.fintracker.model.TimeDuration;
 
 import java.time.LocalDate;
 
-
+/**
+ * A utility class for calculating date-related operations based on different time durations.
+ * This class provides methods to determine the start date of various time periods such as the current week, month, or custom durations.
+ */
 public class DateCalculator {
 
     public static LocalDate getStartDateByTimeDuration(String timeDuration) {

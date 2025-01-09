@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 
+/**
+ * Controller for handling transaction-related requests.
+ * - Retrieves and displays a summary of transactions for the current user based on the selected time duration.
+ */
 @Controller
 @RequestMapping("/transactions")
 @CrossOrigin
@@ -28,6 +32,5 @@ public class TransactionController {
         model.addAttribute("dashboard", summary);
         return "transactions";
     }
-
 
 }

@@ -1,5 +1,9 @@
 package com.perscolas.fintracker.model;
 
+/**
+ * Enum representing predefined time durations with their string descriptions and corresponding integer values.
+ * Provides a method to retrieve an enum constant based on its string value.
+ */
 public enum TimeDuration {
 
     WEEK("This week", 0),

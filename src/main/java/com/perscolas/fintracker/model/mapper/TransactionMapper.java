@@ -1,4 +1,4 @@
-package com.perscolas.fintracker.mapper;
+package com.perscolas.fintracker.model.mapper;
 
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
 import com.perscolas.fintracker.model.entity.*;
@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * Mapper component for converting between TransactionDto and entity objects (Expense and Income).
+ * It provides methods for mapping both expense and income entities to DTOs, and vice versa.
+ */
 @Component
 public class TransactionMapper {
 

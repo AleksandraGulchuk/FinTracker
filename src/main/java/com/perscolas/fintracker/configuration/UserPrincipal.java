@@ -8,6 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+/**
+ * Custom implementation of the UserDetails interface, representing the authenticated user.
+ * - Provides user authorities based on roles associated with the user.
+ * - Implements methods for password, username, and account status checks (e.g., expiration, lock status).
+ */
 @RequiredArgsConstructor
 public class UserPrincipal implements UserDetails {
 
@@ -49,4 +54,5 @@ public class UserPrincipal implements UserDetails {
     public boolean isEnabled() {
         return user.getUserAccess().isEnabled();
     }
+
 }

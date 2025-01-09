@@ -7,6 +7,11 @@ import com.perscolas.fintracker.servise.interfaces.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the RoleService interface.
+ * - Provides functionality to retrieve the role of the current user, specifically the "ROLE_USER".
+ * - Fetches the role from the repository and throws an exception if the role does not exist.
+ */
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {

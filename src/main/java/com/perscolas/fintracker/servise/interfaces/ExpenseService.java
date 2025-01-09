@@ -7,6 +7,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Service interface for managing expenses.
+ * - Provides methods to retrieve an expense summary, create, delete, and update expenses.
+ * - Allows fetching all expenses for a user after a specific date.
+ */
+
 public interface ExpenseService {
 
     SummaryDto getSummary(String userName, String timeDuration);

@@ -1,5 +1,10 @@
 package com.perscolas.fintracker.util;
 
+/**
+ * A utility class that holds constant values used throughout the application.
+ * These constants include string values for expense/income types and time periods,
+ * which are used for categorization and summarization of transactions.
+ */
 public class Constants {
 
     public static final String EXPENSE = "expense";

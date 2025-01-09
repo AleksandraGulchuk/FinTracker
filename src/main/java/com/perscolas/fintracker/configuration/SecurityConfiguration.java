@@ -12,7 +12,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * Security configuration class that sets up authentication and authorization for the application.
+ * - Configures a custom DaoAuthenticationProvider with BCrypt password encoding.
+ * - Defines permitted URL paths (e.g., login, create-account, static resources) for public access.
+ * - Sets up role-based authorization, where the "/**" path requires "USER" role.
+ * - Customizes login and logout behavior, including success and failure URLs.
+ * - Provides a bean to retrieve the current authentication object.
+ */
 @Component
 @RequiredArgsConstructor
 public class SecurityConfiguration {

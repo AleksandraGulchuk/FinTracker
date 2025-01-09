@@ -7,6 +7,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Represents user access control details, including account status and associated roles.
+ * This class is a JPA entity, meaning it is mapped to a database table and can be persisted in a relational database.
+ */
 @Entity
 @Builder
 @Getter
