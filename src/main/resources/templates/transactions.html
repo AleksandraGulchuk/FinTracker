@@ -18,15 +18,15 @@
 </head>
 
 <body>
-<nav th:replace="fragments/navbar.html :: navbar(module='transactions')"></nav>
+<nav th:replace="~{fragments/navbar.html :: navbar(module='transactions')}"></nav>
 
 <div class="container-fluid h-100">
     <div class="row h-100">
-        <nav th:replace="fragments/sidebar.html :: sidebar(module='transactions')"></nav>
+        <nav th:replace="~{fragments/sidebar.html :: sidebar(module='transactions')}"></nav>
 
         <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-4">
 
-            <div th:replace="fragments/info-cards.html :: info-cards(module='transactions')"></div>
+            <div th:replace="~{fragments/info-cards.html :: info-cards(module='transactions')}"></div>
 
             <div class="table-responsive">
                 <table class="table table-hover table-sm text-center">
@@ -63,7 +63,7 @@
 </div>
 
 
-<div th:insert="fragments/bootstrap-scripts.html :: bootstrap-scripts"></div>
+<div th:insert="~{fragments/bootstrap-scripts.html :: bootstrap-scripts}"></div>
 
 </body>
 

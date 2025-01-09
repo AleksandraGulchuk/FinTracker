@@ -23,11 +23,11 @@
 </head>
 
 <body>
-<nav th:replace="fragments/navbar.html :: navbar(module='expenses')"></nav>
+<nav th:replace="~{fragments/navbar.html :: navbar(module='expenses')}"></nav>
 
 <div class="container-fluid h-100">
     <div class="row h-100">
-        <nav th:replace="fragments/sidebar.html :: sidebar(module='expenses')"></nav>
+        <nav th:replace="~{fragments/sidebar.html :: sidebar(module='expenses')}"></nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <br>
@@ -120,7 +120,7 @@
                                      class="d-inline-block align-top" alt="" data-toggle="tooltip" data-placement="top"
                                      title="Update">
                             </a>
-                            <div th:replace="fragments/modal-update.html :: modal-update(transaction=${transaction})"></div>
+                            <div th:replace="~{fragments/modal-update.html :: modal-update(transaction=${transaction})}"></div>
                         </td>
                         <td>
                             <a href="javascript:void(0);" data-toggle="modal"
@@ -134,7 +134,7 @@
                                      class="d-inline-block align-top" alt="" data-toggle="tooltip" data-placement="top"
                                      title="Delete">
                             </a>
-                            <div th:replace="fragments/modal-delete.html :: modal-delete(transaction=${transaction})"></div>
+                            <div th:replace="~{fragments/modal-delete.html :: modal-delete(transaction=${transaction})}"></div>
                         </td>
                     </tr>
                     </tbody>
@@ -144,7 +144,7 @@
     </div>
 </div>
 
-<div th:insert="fragments/bootstrap-scripts.html :: bootstrap-scripts"></div>
+<div th:insert="~{fragments/bootstrap-scripts.html :: bootstrap-scripts}"></div>
 <script th:src="@{/js/functions.js}"></script>
 <script th:src="@{/js/chart-expenses.js}"></script>
 <script th:src="@{/js/form-validator.js}"></script>
