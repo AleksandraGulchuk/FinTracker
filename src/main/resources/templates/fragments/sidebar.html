@@ -1,40 +1,44 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-      <nav class="sidebar col-md-2 d-none d-md-block navbar-dark bg-dark" th:fragment="sidebar(module)">
-        <div class="sidebar-sticky">
-          <ul class="nav flex-column">
+<nav class="sidebar col-md-2 d-none d-md-block navbar-dark bg-dark" th:fragment="sidebar(module)">
+    <div class="sidebar-sticky">
+        <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link btn-outline-secondary" href="" th:href="@{/dashboard?timeDuration=This+month}"
-                 th:classappend="${module == 'dashboard' ? 'active' : ''}">
-                <img th:src="@{/img/icons/dashboard.png}" width="28" height="28" class="d-inline-block align-top" alt="">
-                <span class="align-middle">Dashboard</span>
-              </a>
+                <a class="nav-link btn-outline-secondary" href="" th:href="@{/dashboard?timeDuration=This+month}"
+                   th:classappend="${module == 'dashboard' ? 'active' : ''}">
+                    <img th:src="@{/img/icons/dashboard.png}" width="28" height="28" class="d-inline-block align-top"
+                         alt="">
+                    <span class="align-middle">Dashboard</span>
+                </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link btn-outline-secondary" href="" th:href="@{/transactions?timeDuration=This+month}"
-                 th:classappend="${module == 'transactions' ? 'active' : ''}">
-                <img th:src="@{/img/icons/transaction.png}" width="28" height="28" class="d-inline-block align-top" alt="">
-                <span class="align-middle">Transactions</span>
-              </a>
+                <a class="nav-link btn-outline-secondary" href="" th:href="@{/transactions?timeDuration=This+month}"
+                   th:classappend="${module == 'transactions' ? 'active' : ''}">
+                    <img th:src="@{/img/icons/transaction.png}" width="28" height="28" class="d-inline-block align-top"
+                         alt="">
+                    <span class="align-middle">Transactions</span>
+                </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link btn-outline-secondary" th:href="@{/incomes}"
-                 th:classappend="${module == 'incomes' ? 'active' : ''}">
-                <img th:src="@{/img/icons/income.png}" width="28" height="28" class="d-inline-block align-top" alt="">
-                <span class="align-middle">Incomes</span>
-              </a>
+                <a class="nav-link btn-outline-secondary" th:href="@{/incomes}"
+                   th:classappend="${module == 'incomes' ? 'active' : ''}">
+                    <img th:src="@{/img/icons/income.png}" width="28" height="28" class="d-inline-block align-top"
+                         alt="">
+                    <span class="align-middle">Incomes</span>
+                </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link btn-outline-secondary" href="" th:href="@{/expenses}"
-                 th:classappend="${module == 'expenses' ? 'active' : ''}">
-                <img th:src="@{/img/icons/expense.png}" width="28" height="28" class="d-inline-block align-top" alt="">
-                <span class="align-middle">Expenses</span>
-              </a>
+                <a class="nav-link btn-outline-secondary" href="" th:href="@{/expenses}"
+                   th:classappend="${module == 'expenses' ? 'active' : ''}">
+                    <img th:src="@{/img/icons/expense.png}" width="28" height="28" class="d-inline-block align-top"
+                         alt="">
+                    <span class="align-middle">Expenses</span>
+                </a>
             </li>
-          </ul>
-        </div>
-      </nav>
+        </ul>
+    </div>
+</nav>
 
 
 </html>

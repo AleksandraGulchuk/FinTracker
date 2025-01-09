@@ -1,61 +1,66 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-
-
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3" th:fragment="info-cards(module)">
-      <div class="container">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3"
+     th:fragment="info-cards(module)">
+    <div class="container">
         <div class="row">
-          <div class="col-sm">
-            <div class="card" style="width: 18rem;">
-              <div class="card-body">
-                <h5 class="card-title">Income
-                  <img th:src="@{/img/icons/increasing.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
-                </h5>
-                <img th:src="@{/img/icons/dollar.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
-                <input type="text" id="incomes-total" size="12" th:field="${dashboard.incomeAmount}"
-                       disabled/>
-              </div>
+            <div class="col-sm">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Income
+                            <img th:src="@{/img/icons/increasing.png}" width="28" height="28"
+                                 class="d-inline-block align-top" alt=""/>
+                        </h5>
+                        <img th:src="@{/img/icons/dollar.png}" width="28" height="28" class="d-inline-block align-top"
+                             alt=""/>
+                        <input type="text" id="incomes-total" size="12" th:field="${dashboard.incomeAmount}"
+                               disabled/>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-sm">
-            <div class="card" style="width: 18rem;">
-              <div class="card-body">
-                <h5 class="card-title">Expense
-                  <img th:src="@{/img/icons/decreasing.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
-                </h5>
-                <img th:src="@{/img/icons/dollar.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
-                <input type="text" id="expenses-total" size="12"
-                       th:field="${dashboard.expenseAmount}" disabled/>
-              </div>
+            <div class="col-sm">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Expense
+                            <img th:src="@{/img/icons/decreasing.png}" width="28" height="28"
+                                 class="d-inline-block align-top" alt=""/>
+                        </h5>
+                        <img th:src="@{/img/icons/dollar.png}" width="28" height="28" class="d-inline-block align-top"
+                             alt=""/>
+                        <input type="text" id="expenses-total" size="12"
+                               th:field="${dashboard.expenseAmount}" disabled/>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-sm">
-            <div class="card" style="width: 18rem;">
-              <div class="card-body">
-                <h5 class="card-title">Balance
-                  <img th:src="@{/img/icons/balance.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
-                </h5>
-                <img th:src="@{/img/icons/dollar.png}" width="28" height="28" class="d-inline-block align-top" alt=""/>
-                <input type="text" id="balance-total" size="12" th:field="${dashboard.balance}"
-                       disabled/>
-              </div>
+            <div class="col-sm">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Balance
+                            <img th:src="@{/img/icons/balance.png}" width="28" height="28"
+                                 class="d-inline-block align-top" alt=""/>
+                        </h5>
+                        <img th:src="@{/img/icons/dollar.png}" width="28" height="28" class="d-inline-block align-top"
+                             alt=""/>
+                        <input type="text" id="balance-total" size="12" th:field="${dashboard.balance}"
+                               disabled/>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
 
-      <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-toolbar mb-2 mb-md-0">
 
         <form th:action="@{'/' + ${module}}" method="get">
-          <div class="btn-group-vertical" role="group">
-            <input type="submit" name="timeDuration" class="btn btn-secondary"
-                   th:each="timeDuration : ${dashboard.timeDurations}"
-                   th:value="${timeDuration.stringValue}"
-                   th:classappend="${timeDuration.stringValue == dashboard.active.stringValue ? 'active' : ''}">
-          </div>
+            <div class="btn-group-vertical" role="group">
+                <input type="submit" name="timeDuration" class="btn btn-secondary"
+                       th:each="timeDuration : ${dashboard.timeDurations}"
+                       th:value="${timeDuration.stringValue}"
+                       th:classappend="${timeDuration.stringValue == dashboard.active.stringValue ? 'active' : ''}">
+            </div>
         </form>
-      </div>
     </div>
+</div>
 
 </html>

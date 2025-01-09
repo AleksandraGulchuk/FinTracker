@@ -1,34 +1,33 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar(module)">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar(module)">
     <a class="navbar-brand" href="" th:href="@{/dashboard?timeDuration=This+month}">
-      <img th:src="@{/img/icons/logo.png}" width="30" height="30" class="d-inline-block align-top" alt="">
-      FinTracker</a>
+        <img th:src="@{/img/icons/logo.png}" width="30" height="30" class="d-inline-block align-top" alt="">
+        FinTracker</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
-      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item" th:classappend="${module == 'dashboard' ? 'active' : ''}">
-          <a class="nav-link" href="" th:href="@{/dashboard?timeDuration=This+month}">Dashboard</a>
-        </li>
-        <li class="nav-item" th:classappend="${module == 'transactions' ? 'active' : ''}">
-          <a class="nav-link" href="" th:href="@{/transactions?timeDuration=This+month}">Transactions</a>
-        </li>
-        <li class="nav-item" th:classappend="${module == 'incomes' ? 'active' : ''}">
-          <a class="nav-link" href="" th:href="@{/incomes}">Incomes</a>
-        </li>
-        <li class="nav-item" th:classappend="${module == 'expenses' ? 'active' : ''}">
-          <a class="nav-link" href="" th:href="@{/expenses}">Expenses</a>
-        </li>
-      </ul>
-      <div class="form-inline my-2 my-lg-0" action="">
-          <a class="btn btn-outline-success my-2 my-sm-0" href="#" th:href="@{/logout}">Logout</a>
-      </div>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" th:classappend="${module == 'dashboard' ? 'active' : ''}">
+                <a class="nav-link" href="" th:href="@{/dashboard?timeDuration=This+month}">Dashboard</a>
+            </li>
+            <li class="nav-item" th:classappend="${module == 'transactions' ? 'active' : ''}">
+                <a class="nav-link" href="" th:href="@{/transactions?timeDuration=This+month}">Transactions</a>
+            </li>
+            <li class="nav-item" th:classappend="${module == 'incomes' ? 'active' : ''}">
+                <a class="nav-link" href="" th:href="@{/incomes}">Incomes</a>
+            </li>
+            <li class="nav-item" th:classappend="${module == 'expenses' ? 'active' : ''}">
+                <a class="nav-link" href="" th:href="@{/expenses}">Expenses</a>
+            </li>
+        </ul>
+        <div class="form-inline my-2 my-lg-0" action="">
+            <a class="btn btn-outline-success my-2 my-sm-0" href="#" th:href="@{/logout}">Logout</a>
+        </div>
     </div>
-  </nav>
+</nav>
 
 </html>

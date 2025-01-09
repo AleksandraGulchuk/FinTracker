@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <!-- Required meta tags -->
@@ -16,15 +16,14 @@
     <!--Chart.js -->
     <script th:src="@{https://cdn.jsdelivr.net/npm/chart.js}"></script>
     <link rel="stylesheet" th:href="@{/css/chart.css}">
-
-    <input type="hidden" id="balancesChart" th:value="${dashboard.balancesChart}"/>
-    <input type="hidden" id="expenseCategoriesChartId" th:value="${dashboard.expenseCategoriesChart}"/>
-    <input type="hidden" id="incomeCategoriesChartId" th:value="${dashboard.incomeCategoriesChart}"/>
-    <input type="hidden" id="incomes" th:value="${dashboard.incomesChart}"/>
-    <input type="hidden" id="expenses" th:value="${dashboard.expensesChart}"/>
 </head>
 
 <body>
+<input type="hidden" id="balancesChart" th:value="${dashboard.balancesChart}"/>
+<input type="hidden" id="expenseCategoriesChartId" th:value="${dashboard.expenseCategoriesChart}"/>
+<input type="hidden" id="incomeCategoriesChartId" th:value="${dashboard.incomeCategoriesChart}"/>
+<input type="hidden" id="incomes" th:value="${dashboard.incomesChart}"/>
+<input type="hidden" id="expenses" th:value="${dashboard.expensesChart}"/>
 
 <nav th:replace="~{fragments/navbar.html :: navbar(module='dashboard')}"></nav>
 <div class="container-fluid">
