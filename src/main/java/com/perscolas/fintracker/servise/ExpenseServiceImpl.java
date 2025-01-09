@@ -1,5 +1,6 @@
 package com.perscolas.fintracker.servise;
 
+import com.perscolas.fintracker.exception.EntityNotFoundException;
 import com.perscolas.fintracker.mapper.CategoryMapper;
 import com.perscolas.fintracker.mapper.TransactionMapper;
 import com.perscolas.fintracker.model.dto.category.CategoryDto;
@@ -62,8 +63,11 @@ public class ExpenseServiceImpl implements ExpenseService {
     public void updateExpense(String userName, TransactionDto transaction) {
         UUID userId = userService.getUserIdByUserName(userName);
         transaction.setUserId(userId);
-        Expense expense = transactionMapper.dtoToExpense(transaction);
-        expenseRepository.save(expense);
+        Expense existingExpense = expenseRepository.findById(transaction.getTransactionId())
+                .orElseThrow(() -> new EntityNotFoundException("Expense not found"));
+        Expense updatedExpense = transactionMapper.dtoToExpense(transaction);
+        updatedExpense.setId(existingExpense.getId());
+        expenseRepository.save(updatedExpense);
     }
 
     @Override

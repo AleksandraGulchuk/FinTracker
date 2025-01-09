@@ -1,5 +1,6 @@
 package com.perscolas.fintracker.servise;
 
+import com.perscolas.fintracker.exception.EntityNotFoundException;
 import com.perscolas.fintracker.mapper.CategoryMapper;
 import com.perscolas.fintracker.mapper.TransactionMapper;
 import com.perscolas.fintracker.model.dto.category.CategoryDto;
@@ -60,10 +61,15 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override
     public void updateIncome(String userName, TransactionDto transaction) {
-        UUID userId = userService.getUserIdByUserName(userName);
-        transaction.setUserId(userId);
         Income income = transactionMapper.dtoToIncome(transaction);
         incomeRepository.save(income);
+        UUID userId = userService.getUserIdByUserName(userName);
+        transaction.setUserId(userId);
+        Income existingIncome = incomeRepository.findById(transaction.getTransactionId())
+                .orElseThrow(() -> new EntityNotFoundException("Income not found"));
+        Income updatedIncome = transactionMapper.dtoToIncome(transaction);
+        updatedIncome.setId(existingIncome.getId());
+        incomeRepository.save(updatedIncome);
     }
 
     @Override
