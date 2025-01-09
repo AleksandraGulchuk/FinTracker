@@ -2,11 +2,11 @@ package com.perscolas.fintracker.servise;
 
 import com.perscolas.fintracker.exception.EntityAlreadyExistsException;
 import com.perscolas.fintracker.exception.EntityNotFoundException;
-import com.perscolas.fintracker.model.mapper.UserMapper;
 import com.perscolas.fintracker.model.dto.user.UserSetupDto;
 import com.perscolas.fintracker.model.entity.Role;
 import com.perscolas.fintracker.model.entity.UserAccess;
 import com.perscolas.fintracker.model.entity.UserAccount;
+import com.perscolas.fintracker.model.mapper.UserMapper;
 import com.perscolas.fintracker.repository.UserAccountRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,7 +74,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void testGetUserIdByUserNameShouldReturnUserIdWhenUserExists() {
+    void testGetUserIdByUserNameShouldReturnUserWhenUserExists() {
         String email = "test@example.com";
         UUID userId = UUID.randomUUID();
         UserAccount userAccount = new UserAccount();
@@ -87,12 +87,12 @@ class UserServiceImplTest {
     }
 
     @Test
-    void testGetUserIdByUserNameShouldThrowExceptionWhenUserNotFound() {
+    void testGetUserByUserNameShouldThrowExceptionWhenUserNotFound() {
         String email = "nonexistent@example.com";
 
         when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> userService.getUserIdByUserName(email));
+        assertThrows(EntityNotFoundException.class, () -> userService.getUserByUserName(email));
     }
 
 }

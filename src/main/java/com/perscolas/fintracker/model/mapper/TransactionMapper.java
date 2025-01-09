@@ -1,11 +1,12 @@
 package com.perscolas.fintracker.model.mapper;
 
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
-import com.perscolas.fintracker.model.entity.*;
+import com.perscolas.fintracker.model.entity.Expense;
+import com.perscolas.fintracker.model.entity.ExpenseCategory;
+import com.perscolas.fintracker.model.entity.Income;
+import com.perscolas.fintracker.model.entity.IncomeCategory;
 import com.perscolas.fintracker.util.Constants;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * Mapper component for converting between TransactionDto and entity objects (Expense and Income).
@@ -41,7 +42,6 @@ public class TransactionMapper {
     public Income dtoToIncome(TransactionDto dto) {
         return Income.builder()
                 .id(dto.getTransactionId())
-                .userAccount(UserAccount.builder().id(dto.getUserId()).build())
                 .incomeCategory(IncomeCategory.builder().id(dto.getCategoryId()).build())
                 .amount(dto.getAmount())
                 .date(dto.getDate())
@@ -52,7 +52,6 @@ public class TransactionMapper {
     public Expense dtoToExpense(TransactionDto dto) {
         return Expense.builder()
                 .id(dto.getTransactionId())
-                .userAccount(UserAccount.builder().id(dto.getUserId()).build())
                 .expenseCategory(ExpenseCategory.builder().id(dto.getCategoryId()).build())
                 .amount(dto.getAmount())
                 .date(dto.getDate())

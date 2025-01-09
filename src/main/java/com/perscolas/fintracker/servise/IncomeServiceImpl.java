@@ -1,12 +1,13 @@
 package com.perscolas.fintracker.servise;
 
 import com.perscolas.fintracker.exception.EntityNotFoundException;
-import com.perscolas.fintracker.model.mapper.CategoryMapper;
-import com.perscolas.fintracker.model.mapper.TransactionMapper;
 import com.perscolas.fintracker.model.dto.category.CategoryDto;
 import com.perscolas.fintracker.model.dto.transaction.SummaryDto;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
 import com.perscolas.fintracker.model.entity.Income;
+import com.perscolas.fintracker.model.entity.UserAccount;
+import com.perscolas.fintracker.model.mapper.CategoryMapper;
+import com.perscolas.fintracker.model.mapper.TransactionMapper;
 import com.perscolas.fintracker.repository.IncomeCategoryRepository;
 import com.perscolas.fintracker.repository.IncomeRepository;
 import com.perscolas.fintracker.servise.interfaces.IncomeService;
@@ -55,9 +56,9 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override
     public void createIncome(String userName, TransactionDto dto) {
-        UUID userId = userService.getUserIdByUserName(userName);
-        dto.setUserId(userId);
+        UserAccount user = userService.getUserByUserName(userName);
         Income income = transactionMapper.dtoToIncome(dto);
+        income.setUserAccount(user);
         incomeRepository.save(income);
         log.info("Income created for user: {} with amount: {}", userName, dto.getAmount());
     }
@@ -70,13 +71,10 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override
     public void updateIncome(String userName, TransactionDto dto) {
-        Income income = transactionMapper.dtoToIncome(dto);
-        incomeRepository.save(income);
-        UUID userId = userService.getUserIdByUserName(userName);
-        dto.setUserId(userId);
         Income existingIncome = incomeRepository.findById(dto.getTransactionId())
                 .orElseThrow(() -> new EntityNotFoundException("Income not found"));
         Income updatedIncome = transactionMapper.dtoToIncome(dto);
+        updatedIncome.setUserAccount(existingIncome.getUserAccount());
         updatedIncome.setId(existingIncome.getId());
         incomeRepository.save(updatedIncome);
         log.info("Income updated for user: {} with amount: {}", userName, dto.getAmount());

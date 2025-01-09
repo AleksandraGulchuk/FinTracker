@@ -1,12 +1,13 @@
 package com.perscolas.fintracker.servise;
 
 import com.perscolas.fintracker.exception.EntityNotFoundException;
-import com.perscolas.fintracker.model.mapper.CategoryMapper;
-import com.perscolas.fintracker.model.mapper.TransactionMapper;
 import com.perscolas.fintracker.model.dto.category.CategoryDto;
 import com.perscolas.fintracker.model.dto.transaction.SummaryDto;
 import com.perscolas.fintracker.model.dto.transaction.TransactionDto;
 import com.perscolas.fintracker.model.entity.Expense;
+import com.perscolas.fintracker.model.entity.UserAccount;
+import com.perscolas.fintracker.model.mapper.CategoryMapper;
+import com.perscolas.fintracker.model.mapper.TransactionMapper;
 import com.perscolas.fintracker.repository.ExpenseCategoryRepository;
 import com.perscolas.fintracker.repository.ExpenseRepository;
 import com.perscolas.fintracker.servise.interfaces.ExpenseService;
@@ -55,9 +56,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public void createExpense(String userName, TransactionDto dto) {
-        UUID userId = userService.getUserIdByUserName(userName);
-        dto.setUserId(userId);
+        UserAccount user = userService.getUserByUserName(userName);
         Expense expense = transactionMapper.dtoToExpense(dto);
+        expense.setUserAccount(user);
         expenseRepository.save(expense);
         log.info("Expense created for user: {} with amount: {}", userName, dto.getAmount());
     }
@@ -70,12 +71,11 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public void updateExpense(String userName, TransactionDto dto) {
-        UUID userId = userService.getUserIdByUserName(userName);
-        dto.setUserId(userId);
         Expense existingExpense = expenseRepository.findById(dto.getTransactionId())
                 .orElseThrow(() -> new EntityNotFoundException("Expense not found"));
         Expense updatedExpense = transactionMapper.dtoToExpense(dto);
         updatedExpense.setId(existingExpense.getId());
+        updatedExpense.setUserAccount(existingExpense.getUserAccount());
         expenseRepository.save(updatedExpense);
         log.info("Expense updated for user: {} with amount: {}", userName, dto.getAmount());
     }
