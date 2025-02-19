@@ -13,7 +13,7 @@
 ## Technologies
 
 - **Backend**: Java, Spring Boot, Hibernate
-- **Data Storage**: MySQL (Relational Database), H2 (For Testing)
+- **Data Storage**: MySQL/PostgreSQL (Relational Database), H2 (For Testing)
 - **Security**: Spring Security for authentication and role management
 - **Frontend**: HTML, CSS, JavaScript, Thymeleaf
 - **Testing**: JUnit5, Mockito
